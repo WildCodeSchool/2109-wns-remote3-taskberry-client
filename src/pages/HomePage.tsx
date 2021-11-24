@@ -1,6 +1,6 @@
 import StartingPageContent from '../components/StartingPage/StartingPageContent';
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   return <StartingPageContent />;
 };
 

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-const MainNavigation = () => {
+const MainNavigation : React.FC = () => {
   return (
-    <header>
+    <header data-test="main-navigation-content">
       <Link to="/">
         <div>TaskBerry Auth</div>
       </Link>

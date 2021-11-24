@@ -2,9 +2,9 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import HomePage from "./pages/HomePage";
 
-function App() {
+const App = () => {
   return (
-    <Layout>
+    <Layout data-test="component-app">
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
       </Routes>
