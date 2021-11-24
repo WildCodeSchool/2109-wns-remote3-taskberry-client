@@ -1,10 +1,14 @@
-import "./App.css";
-import Navbar from "./components/Navbar";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import HomePage from "./pages/HomePage";
+
 function App() {
   return (
-    <div className="App flex">
-      <Navbar />
-    </div>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage />}></Route>
+      </Routes>
+    </Layout>
   );
 }
 
