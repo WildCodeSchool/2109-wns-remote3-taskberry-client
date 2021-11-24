@@ -29,6 +29,7 @@ module.exports = {
     "no-alert": "off",
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
+    "prettier/prettier": "error",
   },
   ignorePatterns: [".eslintrc.js"],
 };
