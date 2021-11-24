@@ -1,9 +1,18 @@
-import { Fragment, ReactFragment } from 'react'
+import { Fragment, ReactFragment, ReactNode } from "react";
+import { RouteProps } from "react-router";
+import MainNavigation from "./MainNavigation";
 
-const Layout = (props: ReactFragment) => {
-    return (
-        <Fragment><main>(props.children)</main></Fragment>
-    )
-}
+interface PropsInterface {
+    children: any;
+  }
 
-export default Layout
+const Layout: React.FC<PropsInterface> = (props: PropsInterface) => {
+  return (
+    <Fragment>
+      <MainNavigation />
+      <main>{props.children}</main>
+    </Fragment>
+  );
+};
+
+export default Layout;
