@@ -43,7 +43,3 @@ const MainNavigation: React.FC = () => {
 };
 
 export default MainNavigation;
-
-{
-  /* <button className="text-white-200 border-solid border-1 border-white-800 font-bold px-2 py-6 rounded-sm cursor-pointer"> */
-}
