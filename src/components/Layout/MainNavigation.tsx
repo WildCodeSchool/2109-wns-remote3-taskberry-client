@@ -5,6 +5,7 @@ const MainNavigation : React.FC = () => {
     <header data-test="main-navigation-content">
       <Link to="/">
         <div>TaskBerry Auth</div>
+        <img src="/images/TaskBerry.png" alt="logo" />
       </Link>
       <nav>
         <ul>
