@@ -5,12 +5,19 @@ import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
-    <Layout data-test="component-app">
-      <Routes>
-        <Route path="/" element={<HomePage />}></Route>
-        <Route path="/dashboard" element={<Navbar />}></Route>
-      </Routes>
-    </Layout>
+    <div>
+      <div>
+        <Routes>
+          <Route path="/dashboard" element={<Navbar />}></Route>
+        </Routes>
+      </div>
+
+      <Layout data-test="component-app">
+        <Routes>
+          <Route path="/" element={<HomePage />}></Route>
+        </Routes>
+      </Layout>
+    </div>
   );
 };
 
