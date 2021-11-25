@@ -88,6 +88,8 @@ function Navbar() {
               <FontAwesomeIcon icon={faUsers} size="3x" />
               <p>Equipe</p>
             </a>
+          </nav>
+        </div>
       </div>
     </div>
   );
