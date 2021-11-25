@@ -49,44 +49,47 @@ function Navbar() {
 
       {/* sidebar */}
 
-      <div className="sidebar bg-purple-medium text-purple-100 w-24 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full sm:relative sm:translate-x-0 transition duration-200 ease-in-out content-center justify-center flex flex-wrap">
+      <div className="sidebar bg-purple-medium text-purple-100 w-24 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full sm:relative sm:translate-x-0 transition duration-200 ease-in-out">
         {/* logo */}
-
-        <a href="#" className="text-white absolute">
-          <img src="./img/favicon.ico" />
-        </a>
+        <div>
+          <a href="#" className="">
+            <img src="./img/favicon.ico" />
+          </a>
+        </div>
 
         {/* nav */}
-        <nav>
-          <a
-            href="#"
-            className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
-          >
-            <FontAwesomeIcon icon={faHome} size="3x" />
-            <p>Accueil</p>
-          </a>
-          <a
-            href=""
-            className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
-          >
-            <FontAwesomeIcon icon={faTasks} size="3x" />
-            <p>Tickets</p>
-          </a>
-          <a
-            href=""
-            className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
-          >
-            <FontAwesomeIcon icon={faFolder} size="3x" />
-            <p>Projets</p>
-          </a>
-          <a
-            href=""
-            className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
-          >
-            <FontAwesomeIcon icon={faUsers} size="3x" />
-            <p>Equipe</p>
-          </a>
-        </nav>
+        <div className="content-center justify-center flex flex-wrap h-[calc(100%-200px)] mt-0">
+          <nav>
+            <a
+              href="#"
+              className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+            >
+              <FontAwesomeIcon icon={faHome} size="3x" />
+              <p>Accueil</p>
+            </a>
+            <a
+              href=""
+              className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+            >
+              <FontAwesomeIcon icon={faTasks} size="3x" />
+              <p>Tickets</p>
+            </a>
+            <a
+              href=""
+              className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+            >
+              <FontAwesomeIcon icon={faFolder} size="3x" />
+              <p>Projets</p>
+            </a>
+            <a
+              href=""
+              className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+            >
+              <FontAwesomeIcon icon={faUsers} size="3x" />
+              <p>Equipe</p>
+            </a>
+          </nav>
+        </div>
       </div>
     </div>
   );
