@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const MainNavigation: React.FC = () => {
   return (
     <header
-      className="w-full h-20 bg-purple-600 shadow-2xl flex justify-between items-center py-0 px-32"
+      className="w-full h-20 bg-purple-medium shadow-2xl flex justify-between items-center py-0 px-32"
       data-test="main-navigation-content"
     >
       <Link to="/">
