@@ -7,7 +7,7 @@ const StartingPageContent: React.FC = () => {
 =======
     <div>
       <section
-        className="m-24 m-auto text-center"
+        className="m-28 m-auto text-center"
         data-test="starting-page-content"
       >
         <h1 className="text-6xl text-purple-900">Welcome on TaskBerry!</h1>
