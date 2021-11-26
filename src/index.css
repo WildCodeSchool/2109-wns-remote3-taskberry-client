@@ -1,12 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<<<<<<< HEAD
 @tailwind variants;
-=======
-@tailwind variants; 
-
->>>>>>> 68e52dc1c8e9334a2cbd48a89a8ec8b05a3bf72b
 
 body {
   margin: 0;
