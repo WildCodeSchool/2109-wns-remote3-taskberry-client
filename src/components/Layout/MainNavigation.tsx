@@ -8,7 +8,7 @@ const MainNavigation: React.FC = () => {
     >
       <Link to="/">
         <img
-          className="w-[110px] h-[80px] border-solid border-1 border-red-500 m-0 "
+          className="w-[110px] h-[80px] m-0 "
           src="/images/Berry.png"
           alt="logo"
         />
