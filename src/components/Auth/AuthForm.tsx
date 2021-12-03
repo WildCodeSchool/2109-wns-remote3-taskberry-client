@@ -5,7 +5,7 @@ import AuthToggleButton from "../Button/AuthToggleButton";
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true);
 
-  const switchAuthModeHandler = () => {
+  const switchAuthModeHandler = (): void => {
     setIsLogin((prevState) => !prevState);
   };
 
@@ -51,7 +51,7 @@ const AuthForm = () => {
   );
 
   return (
-    <section className="m-12 w-11/12 max-w-md rounded-md bg-purple-medium shadow-md p-4 text-center">
+    <section className="my-12 m-auto w-11/12 max-w-max rounded-md bg-purple-medium shadow-md p-4 text-center">
       <h1 className="text-center text-white p-4 ">
         {isLogin ? "Se connecter" : "S'inscrire"}
       </h1>
@@ -82,14 +82,10 @@ const AuthForm = () => {
         {confirmPasswordField}
         <div className="mt-6 flex flex-col items-center">
           <AuthButton logged={isLogin} />
-          <AuthToggleButton switchAuthModeHandler={switchAuthModeHandler} />
-          {/* <button
-            type="button"
-            className="mt-4 bg-transparent text-purple-600 border-none py-0.5 px-6 hover:bg-transparent hover:text-pink-600"
-            onClick={switchAuthModeHandler}
-          >
-            {isLogin ? "S'inscrire" : "Déjà un compte ? Connectez-vous"}
-          </button> */}
+          <AuthToggleButton
+            switchAuthModeHandler={switchAuthModeHandler}
+            logged={isLogin}
+          />
         </div>
       </form>
     </section>
