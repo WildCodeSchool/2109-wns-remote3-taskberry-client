@@ -1,6 +1,6 @@
 const ProfileForm: React.FC = () => {
   return (
-    <form className="w-11/12 max-w-sm m-8 m-auto">
+    <form className="w-11/12 max-w-sm my-8 m-auto">
       <div className="mb-8">
         <label
           className="mb-8 font-bold text-gray-900 block "
