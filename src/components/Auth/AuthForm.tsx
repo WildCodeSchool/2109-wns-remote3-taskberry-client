@@ -1,24 +1,40 @@
 import { useState, useRef } from "react";
+import useHttp from "../../hooks/use-http";
 import AuthButton from "../Button/AuthButton";
 import AuthToggleButton from "../Button/AuthToggleButton";
 
+interface UseHttp {
+  isLoading: string;
+  error: string;
+  sendRequest: () => Promise<void>;
+}
+
+interface RequestConfig {
+  url: string;
+  method: string;
+  headers: any;
+  body: unknown;
+}
 const AuthForm = () => {
+  const {
+    isLoading,
+    error,
+    sendRequest: sentLoginRequest,
+  } = useHttp();
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [error, setError] = useState<string | null>(null);
 
   const switchAuthModeHandler = (): void => {
     setIsLogin((prevState) => !prevState);
   };
 
-  const submitHandler = (event: React.FormEvent) => {
-    event.preventDefault();
+  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     const enteredEmail = emailInputRef.current!.value;
     const enteredPassword = passwordInputRef.current!.value;
-    setIsLoading(true);
-    let url;
-    // need to create hook / async await / validate
+    let url: string;
     if (isLogin) {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
@@ -26,40 +42,64 @@ const AuthForm = () => {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
     }
-    fetch(url, {
+    sentLoginRequest;
+    ({
+      url: url,
       method: "POST",
-      body: JSON.stringify({
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+      body: {
         email: enteredEmail,
         password: enteredPassword,
         returnSecureToken: true,
-      }),
-      headers: {
-        "Content-Type": "application/json",
       },
-    })
-      .then((res) => {
-        setIsLoading(false);
-        if (res.ok) {
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            // show an error modal
-            const errorMessage = "Authentification failed";
-            // if (data && data.error & data.error.message) {
-            //   errorMessage = data.error.message;
-            // }
-
-            throw new Error(errorMessage);
-          });
-        }
-      })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
+    });
   };
+
+  // const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const enteredEmail = emailInputRef.current!.value;
+  //   const enteredPassword = passwordInputRef.current!.value;
+  //   setIsLoading(true);
+  //   setError(null);
+  //   let url;
+  //   // need to create hook / validate / dotenv
+  //   if (isLogin) {
+  //     url =
+  //       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
+  //   } else {
+  //     url =
+  //       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
+  //   }
+
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         email: enteredEmail,
+  //         password: enteredPassword,
+  //         returnSecureToken: true,
+  //       }),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+
+  //     if (!response.ok) {
+  //       const errorMessage = "Authentification failed";
+  //       throw new Error(errorMessage);
+  //     }
+  //     const data = await response.json();
+  //   } catch (err) {
+  //     if (err instanceof Error) {
+  //       setError(err.message || "Something went wrong!");
+  //       console.log(error);
+  //       alert(err.message);
+  //     }
+  //   }
+  //   setIsLoading(false);
+  // };
 
   const createAccountFields = !isLogin && (
     <div>
