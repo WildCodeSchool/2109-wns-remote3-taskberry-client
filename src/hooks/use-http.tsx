@@ -4,18 +4,19 @@ interface RequestConfig {
   url: string;
   method: string;
   headers: any;
-  body: unknown;
+  body?: any;
 }
 
-const useHttp = (requestConfig: RequestConfig) => {
+const useHttp = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const sendRequest = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const sendRequest = async (requestConfig: RequestConfig) => {
+    console.log("tata");
     setIsLoading(true);
+    console.log(isLoading);
     setError(null);
-
+    console.log(error);
     try {
       const response = await fetch(requestConfig.url, {
         method: requestConfig.method,
@@ -38,8 +39,8 @@ const useHttp = (requestConfig: RequestConfig) => {
     setIsLoading(false);
   };
   return {
-    isLoading,
-    error,
+    isLoading: isLoading,
+    error: error,
     sendRequest,
   };
 };

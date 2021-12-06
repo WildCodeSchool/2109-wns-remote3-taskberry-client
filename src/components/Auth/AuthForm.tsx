@@ -3,24 +3,20 @@ import useHttp from "../../hooks/use-http";
 import AuthButton from "../Button/AuthButton";
 import AuthToggleButton from "../Button/AuthToggleButton";
 
-interface UseHttp {
-  isLoading: string;
-  error: string;
-  sendRequest: () => Promise<void>;
-}
+// interface UseHttp {
+//   isLoading: boolean;
+//   error: string | null;
+//   sendRequest: () => Promise<void>;
+// }
 
-interface RequestConfig {
-  url: string;
-  method: string;
-  headers: any;
-  body: unknown;
-}
+// interface RequestConfig {
+//   url: string;
+//   method: string;
+//   headers: Head;
+//   body: Body;
+// }
 const AuthForm = () => {
-  const {
-    isLoading,
-    error,
-    sendRequest: sentLoginRequest,
-  } = useHttp();
+  const { isLoading, error, sendRequest } = useHttp();
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -32,9 +28,11 @@ const AuthForm = () => {
   };
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const enteredEmail = emailInputRef.current!.value;
     const enteredPassword = passwordInputRef.current!.value;
-    let url: string;
+    console.log("toto");
+    let url;
     if (isLogin) {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
@@ -42,13 +40,13 @@ const AuthForm = () => {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
     }
-    sentLoginRequest;
-    ({
+    console.log(url);
+    sendRequest({
       url: url,
       method: "POST",
-      headers: new Headers({
+      headers: {
         "Content-Type": "application/json",
-      }),
+      },
       body: {
         email: enteredEmail,
         password: enteredPassword,
