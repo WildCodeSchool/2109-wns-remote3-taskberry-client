@@ -3,35 +3,21 @@ import useHttp from "../../hooks/use-http";
 import AuthButton from "../Button/AuthButton";
 import AuthToggleButton from "../Button/AuthToggleButton";
 
-// interface UseHttp {
-//   isLoading: boolean;
-//   error: string | null;
-//   sendRequest: () => Promise<void>;
-// }
-
-// interface RequestConfig {
-//   url: string;
-//   method: string;
-//   headers: Head;
-//   body: Body;
-// }
 const AuthForm = () => {
-  const { isLoading, error, sendRequest } = useHttp();
+  const { isLoading, error, sendRequest: signLoginRequest } = useHttp();
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const [error, setError] = useState<string | null>(null);
 
   const switchAuthModeHandler = (): void => {
     setIsLogin((prevState) => !prevState);
   };
 
+  // need to validate / dotenv / memorylogin
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const enteredEmail = emailInputRef.current!.value;
-    const enteredPassword = passwordInputRef.current!.value;
-    console.log("toto");
+    const enteredEmail: string = emailInputRef.current!.value;
+    const enteredPassword: string = passwordInputRef.current!.value;
     let url;
     if (isLogin) {
       url =
@@ -41,7 +27,7 @@ const AuthForm = () => {
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
     }
     console.log(url);
-    sendRequest({
+    signLoginRequest({
       url: url,
       method: "POST",
       headers: {
@@ -54,50 +40,6 @@ const AuthForm = () => {
       },
     });
   };
-
-  // const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const enteredEmail = emailInputRef.current!.value;
-  //   const enteredPassword = passwordInputRef.current!.value;
-  //   setIsLoading(true);
-  //   setError(null);
-  //   let url;
-  //   // need to create hook / validate / dotenv
-  //   if (isLogin) {
-  //     url =
-  //       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
-  //   } else {
-  //     url =
-  //       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
-  //   }
-
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       body: JSON.stringify({
-  //         email: enteredEmail,
-  //         password: enteredPassword,
-  //         returnSecureToken: true,
-  //       }),
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       const errorMessage = "Authentification failed";
-  //       throw new Error(errorMessage);
-  //     }
-  //     const data = await response.json();
-  //   } catch (err) {
-  //     if (err instanceof Error) {
-  //       setError(err.message || "Something went wrong!");
-  //       console.log(error);
-  //       alert(err.message);
-  //     }
-  //   }
-  //   setIsLoading(false);
-  // };
 
   const createAccountFields = !isLogin && (
     <div>

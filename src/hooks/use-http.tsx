@@ -1,22 +1,14 @@
 import { useState } from "react";
-
-interface RequestConfig {
-  url: string;
-  method: string;
-  headers: any;
-  body?: any;
-}
+import RequestConfig from "../models/RequestConfig";
 
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const sendRequest = async (requestConfig: RequestConfig) => {
-    console.log("tata");
+    console.log(requestConfig);
     setIsLoading(true);
-    console.log(isLoading);
     setError(null);
-    console.log(error);
     try {
       const response = await fetch(requestConfig.url, {
         method: requestConfig.method,
@@ -32,12 +24,12 @@ const useHttp = () => {
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message || "Something went wrong!");
-        console.log(error);
         alert(err.message);
       }
     }
     setIsLoading(false);
   };
+
   return {
     isLoading: isLoading,
     error: error,
