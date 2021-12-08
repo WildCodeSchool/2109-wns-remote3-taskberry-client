@@ -13,18 +13,16 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  // need to validate / dotenv / memorylogin
+  // need to validate / validate 2xpassword / dotenv / memorylogin
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const enteredEmail: string = emailInputRef.current!.value;
     const enteredPassword: string = passwordInputRef.current!.value;
     let url;
     if (isLogin) {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
     } else {
-      url =
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc";
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
     }
     console.log(url);
     signLoginRequest({
