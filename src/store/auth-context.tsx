@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 let logoutTimer: ReturnType<typeof setTimeout>;
 
@@ -23,16 +23,15 @@ const calculateRemainingTime = (expirationTime: string) => {
   return remainingDuration;
 };
 
-//look into localStorage and get token from there only if the token is valid, delete if it's not the case
-
+// look into localStorage and get token from there only if the token is valid, delete if it's not the case
 const retrieveStoredToken = () => {
   const storedToken = localStorage.getItem("token");
-  //  const storedExpirationDate = localStorage.getItem("expirationTime");
-  const temp = localStorage.getItem("expirationTime");
-  const storedExpirationDate = temp ? JSON.parse(temp) : {};
+  const storedExpirationDate = localStorage.getItem("expirationTime");
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
-  // check if token is valid with a enouth remaining time (< 1 minute)
+  // check if token is valid with a remaining time < 1 minute
   if (remainingTime <= 60000) {
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
@@ -53,13 +52,18 @@ export const AuthContextProvider: React.FC = (props) => {
   const [token, setToken] = useState<string | null | undefined>(initialToken);
   const userIsLoggedIn = !!token;
 
-  const logoutHandler = () => {
+  // dependancy array is empty because functions inside logoutHandler are not specific to React app or to this component function
+  // localStorage and clearTimout are browser builts-in functions
+  // setToken function never changes (guaranted by React)
+  // logoutTimer is a global variable outside of React rendering flow
+  const logoutHandler = useCallback(() => {
     setToken(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("expirationTime");
     if (logoutTimer) {
       clearTimeout(logoutTimer);
     }
-  };
+  }, []);
 
   const loginHandler = (token: string, expirationTime: string) => {
     setToken(token);
@@ -69,6 +73,13 @@ export const AuthContextProvider: React.FC = (props) => {
     const remainingTime = calculateRemainingTime(expirationTime);
     logoutTimer = setTimeout(logoutHandler, remainingTime);
   };
+
+  useEffect(() => {
+    if (tokenData) {
+      console.log("tokenData.duration", tokenData.duration);
+      logoutTimer = setTimeout(logoutHandler, tokenData.duration);
+    }
+  }, [tokenData, logoutHandler]);
 
   const contextValue: AuthContextObj = {
     token: token,

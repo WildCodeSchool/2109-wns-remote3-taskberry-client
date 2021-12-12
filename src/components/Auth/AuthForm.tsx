@@ -13,7 +13,7 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  // need to validate / validate 2xpassword / dotenv / memorylogin / need to set errorModal and infoModal / need toset names fields
+  // need to validate / validate 2xpassword / dotenv / memorylogin / need to set errorModal and infoModal / need to set names fields
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const enteredEmail: string = emailInputRef.current!.value;
@@ -24,7 +24,6 @@ const AuthForm = () => {
     } else {
       url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
     }
-    console.log(url);
     signLoginRequest({
       url: url,
       method: "POST",
