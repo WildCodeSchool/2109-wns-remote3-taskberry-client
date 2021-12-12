@@ -25,12 +25,9 @@ const useHttp = () => {
         throw new Error(errorMessage);
       }
       const data = await response.json();
-      console.log("data", data);
       const expirationTime = new Date(
         new Date().getTime() + +data.expiresIn * 1000
       );
-      console.log("expirationTime", expirationTime);
-      console.log("TypeOfexpirationTime", typeof expirationTime.toISOString());
       authCtx.login(data.idToken, expirationTime.toISOString());
       // set navigate for login
       // to do => conditional navigate for updtate password prefer display modal information and stay on profile page
