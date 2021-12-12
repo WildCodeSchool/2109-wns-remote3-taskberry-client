@@ -13,7 +13,7 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  // need to validate / validate 2xpassword / dotenv / memorylogin
+  // need to validate / validate 2xpassword / dotenv / memorylogin / need to set errorModal and infoModal / need toset names fields
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const enteredEmail: string = emailInputRef.current!.value;
