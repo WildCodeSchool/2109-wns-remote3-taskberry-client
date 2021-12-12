@@ -3,8 +3,9 @@ export default class RequestConfig {
   method: string = "";
   headers: any = "";
   body?: {
-    email: string;
-    password: string;
-    returnSecureToken: boolean;
+    email?: string;
+    password?: string;
+    returnSecureToken?: boolean;
+    idToken?: string | null;
   };
 }

@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import RequestConfig from "../models/RequestConfig";
+import AuthContext from "../store/auth-context";
+import { useNavigate } from "react-router-dom";
 
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const sendRequest = async (requestConfig: RequestConfig) => {
     console.log(requestConfig);
@@ -21,6 +25,17 @@ const useHttp = () => {
         throw new Error(errorMessage);
       }
       const data = await response.json();
+      console.log("data", data);
+      const expirationTime = new Date(
+        new Date().getTime() + +data.expiresIn * 1000
+      );
+      console.log("expirationTime", expirationTime);
+      console.log("TypeOfexpirationTime", typeof expirationTime.toISOString());
+      authCtx.login(data.idToken, expirationTime.toISOString());
+      // set navigate for login
+      // to do => conditional navigate for updtate password prefer display modal information and stay on profile page
+      // to do => conditional navigate for signup prefer display modal information and then go on home page
+      navigate("/");
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message || "Something went wrong!");
