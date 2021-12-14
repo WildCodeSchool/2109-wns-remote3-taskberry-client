@@ -10,7 +10,6 @@ const useHttp = () => {
   const navigate = useNavigate();
 
   const sendRequest = async (requestConfig: RequestConfig) => {
-    console.log(requestConfig);
     setIsLoading(true);
     setError(null);
     try {
