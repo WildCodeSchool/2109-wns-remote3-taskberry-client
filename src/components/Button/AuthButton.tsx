@@ -1,18 +1,22 @@
 interface AuthButtonProps {
   logged?: boolean;
-  load?: boolean;
+  isLoading?: boolean;
 }
 
 const AuthButton = (props: AuthButtonProps) => {
-  const { logged, load } = props;
+  const { logged, isLoading } = props;
   return (
     <div>
-      {!load && (
-        <button className="cursor-pointer text-white bg-purple-400 border-purple-400 border-solid rounded-md py-2 px-10 hover:bg-pink-400 hover:border-pink-400">
+      {!isLoading && (
+        <button
+          className="cursor-pointer text-white bg-purple-400 border-purple-400 border-solid rounded-md py-2 px-10 hover:bg-pink-400 hover:border-pink-400"
+          // add conditionnal : if error => disable if not enable / add css
+          // disabled={true}
+        >
           {logged ? "Se connecter" : "S'inscrire"}
         </button>
       )}
-      {load && <p>Sending request ...</p>}
+      {isLoading && <p>Sending request ...</p>}
     </div>
   );
 };
