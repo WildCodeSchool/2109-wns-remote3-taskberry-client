@@ -3,21 +3,52 @@ interface ValidateValues {
   password: string;
 }
 interface ErrorsValues {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
 }
 
 export default function validate(values: ValidateValues) {
-  const errors: ErrorsValues = { email: "", password: "" };
+  const errors: ErrorsValues = {};
   if (!values.email) {
     errors.email = "Email address is required";
-  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-    errors.email = "Email address is invalid motherfucker";
+  } else if (
+    !new RegExp(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    ).test(values.email)
+  ) {
+    errors.email = "Enter a valid email address";
   }
   if (!values.password) {
     errors.password = "Password is required";
-  } else if (values.password.length < 6) {
-    errors.password = "Password must be 6 or more characters";
+  } else if (
+    !new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/).test(
+      values.password
+    )
+  ) {
+    errors.password =
+      "Password should contains atleast 8 charaters and containing uppercase,lowercase and numbers";
   }
   return errors;
 }
+
+// const validate = (event, name, value) => {
+//   //A function to validate each input values
+
+//   switch (name) {
+//     case "username":
+//       if (value.length <= 4) {
+//         // we will set the error state
+
+//         setErrors({
+//           ...errors,
+//           username: "Username atleast have 5 letters",
+//         });
+//       } else {
+//         // set the error state empty or remove the error for username input
+
+//         //omit function removes/omits the value from given object and returns a new object
+//         let newObj = omit(errors, "username");
+//         setErrors(newObj);
+//       }
+//       break;
+// };

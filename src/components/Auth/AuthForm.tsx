@@ -4,127 +4,74 @@ import AuthButton from "../Button/AuthButton";
 import AuthToggleButton from "../Button/AuthToggleButton";
 import validate from "../../helpers/loginFormValidationRules";
 import useForm from "../../hooks/use-form";
-import { omit } from "lodash";
 
 const AuthForm = () => {
-  // hooks 1/2/3
   const login = (): void => {
     console.log("Callback function when form is submitted!");
     console.log("Form Values ", values);
   };
   const { isLoading, error, sendRequest: signLoginRequest } = useHttp();
 
-  // hooks 1
-  // const {
-  //   values,
-  //   errors,
-  //   handleChange,
-  //   handleSubmit: handleSubmitValidate,
-  // } = useForm(login, validate);
-
-  // hooks 2
-  // const {
-  //   handleChange,
-  //   values,
-  //   errors,
-  //   handleSubmit: handleSubmitValidate,
-  // } = useForm(login);
+  const {
+    values,
+    errors,
+    handleChange,
+    handleSubmit: handleSubmitValidate,
+  } = useForm(login, validate);
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  // hooks 3
-  const [values, setValues] = useState({});
-  const [errors, setErrors] = useState<any>({});
 
   const switchAuthModeHandler = (): void => {
     setIsLogin((prevState) => !prevState);
   };
 
-  // hooks 3
-  const validate = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    name: string,
-    value: string
-  ) => {
-    switch (name) {
-      case "email":
-        if (
-          !new RegExp(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          ).test(value)
-        ) {
-          setErrors({
-            ...errors,
-            email: "Enter a valid email address",
-          });
-        } else {
-          const newObj = omit(errors, "email");
-          setErrors(newObj);
-        }
-        break;
-      case "password":
-        if (
-          !new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/).test(value)
-        ) {
-          setErrors({
-            ...errors,
-            password:
-              "Password should contains atleast 8 charaters and containing uppercase,lowercase and numbers",
-          });
-        } else {
-          const newObj = omit(errors, "password");
-          setErrors(newObj);
-        }
-        break;
-      default:
-        break;
-    }
-  };
+  // 1-Login
+  // clear whitespace
+  // set error paragraph css
+  // disable button if errors
+  // enable is not
+  // condition in hooks useform is error set modal / if not submit ok
+  // set modal in hooks http if error if not ras
+  // eye
+  // memorylogin
 
-   // hooks 3
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.persist();
-    const name = event.target.name;
-    const val = event.target.value;
-    validate(event, name, val);
-    setValues({
-      ...values,
-      [name]: val,
-    });
-  };
+  // 2-SignUp
+  // need to set names fields
+  // validate 2xpassword / dotenv / need to set errorModal and infoModal
 
-  // need to validate / validate 2xpassword / dotenv / memorylogin / need to set errorModal and infoModal / need to set names fields / eye
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     if (event) event.preventDefault();
-    // handleSubmitValidate(event);
-    if (Object.keys(errors).length === 0 && Object.keys(values).length !== 0) {
-      login();
-    } else {
-      alert("There is an Error!");
-    }
-    console.log("values", values);
-    console.log("errors", errors);
+    handleSubmitValidate(event);
+
     const enteredEmail: string = emailInputRef.current!.value;
     const enteredPassword: string = passwordInputRef.current!.value;
-    let url;
-    if (isLogin) {
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+
+    if (Object.keys(errors).length === 0 && Object.keys(values).length !== 0) {
+      login();
+      let url;
+      if (isLogin) {
+        url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+      } else {
+        url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+      }
+      signLoginRequest({
+        url: url,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          email: enteredEmail,
+          password: enteredPassword,
+          returnSecureToken: true,
+        },
+      });
     } else {
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+      alert("There is an Error!");
+      console.log("errors", errors);
     }
-    signLoginRequest({
-      url: url,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: {
-        email: enteredEmail,
-        password: enteredPassword,
-        returnSecureToken: true,
-      },
-    });
   };
 
   const createAccountFields = !isLogin && (
@@ -184,9 +131,9 @@ const AuthForm = () => {
             autoComplete="off"
             type="email"
             name="email"
-            // value={values.email || ""}
+            value={values.email || ""}
             id="email"
-            placeholder="E-mail"
+            placeholder="email"
             onChange={handleChange}
             required
             ref={emailInputRef}
@@ -202,9 +149,9 @@ const AuthForm = () => {
             autoComplete="off"
             type="password"
             name="password"
-            // value={values.password || ""}
+            value={values.password || ""}
             id="password"
-            placeholder="E-mail"
+            placeholder="password"
             onChange={handleChange}
             required
             ref={passwordInputRef}
@@ -215,10 +162,10 @@ const AuthForm = () => {
         </div>
         {confirmPasswordField}
         <div className="mt-6 flex flex-col items-center">
-          <AuthButton logged={isLogin} isLoading={isLoading} />
+          <AuthButton isLogin={isLogin} isLoading={isLoading} />
           <AuthToggleButton
             switchAuthModeHandler={switchAuthModeHandler}
-            logged={isLogin}
+            isLogin={isLogin}
           />
         </div>
       </form>
