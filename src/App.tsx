@@ -31,7 +31,6 @@ const App = () => {
           <Route path="/dashboards" element={<Dashboard />}></Route>
         </Routes>
       </Layout>
-      <Navbar />
     </div>
   );
 };
