@@ -12,13 +12,7 @@ import Dashboard from "./pages/Dashboard";
 const App = () => {
   const authCtx = useContext(AuthContext);
   return (
-    <div data-test="component-app" className="flex">
-      <div>
-        <Routes>
-          <Route path="/dashboard" element={<Navbar />}></Route>
-        </Routes>
-      </div>
-
+    <div data-test="component-app">
       <Layout>
         <Navbar />
         <Routes>
