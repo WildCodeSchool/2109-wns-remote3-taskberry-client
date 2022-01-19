@@ -10,7 +10,7 @@ function CardAddProject() {
           <p className="text-xl text-center">Nouveau projet</p>
         </div>
         <div className="flex-col">
-          <FontAwesomeIcon icon={faPlus} size="5x" />
+          <FontAwesomeIcon icon={faPlus} size="5x" className="block mx-auto" />
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 import CardAddProject from "../components/CardAddProject";
 import Cardproject from "../components/Cardproject";
 
-function Dashbord() {
+function Dashbord(): JSX.Element {
   return (
     <div className="w-full">
       <div className="flex flex-row justify-end mr-10 mt-2">

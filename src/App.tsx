@@ -2,11 +2,12 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
+import Dashbord from "./pages/Dashbord";
 
 const App = () => {
   return (
-    <div data-test="component-app">
-      <div>
+    <div data-test="component-app" className="flex">
+      {/* <div>
         <Routes>
           <Route path="/dashboard" element={<Navbar />}></Route>
         </Routes>
@@ -16,7 +17,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
         </Routes>
-      </Layout>
+      </Layout> */}
+      <Navbar />
+      <Dashbord />
     </div>
   );
 };
