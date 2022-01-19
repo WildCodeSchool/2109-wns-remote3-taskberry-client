@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import MainNavigation from "./MainNavigation";
+import Navbar from "../Navbar";
 
 interface PropsInterface {
   children: React.ReactNode;
@@ -8,7 +9,7 @@ interface PropsInterface {
 const Layout: React.FC<PropsInterface> = (props: PropsInterface) => {
   return (
     <Fragment>
-      <MainNavigation />
+      {/* <MainNavigation /> */}
       <main>{props.children}</main>
     </Fragment>
   );
