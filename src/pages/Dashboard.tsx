@@ -3,9 +3,9 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 import CardAddProject from "../components/CardAddProject";
 import Cardproject from "../components/Cardproject";
 
-function Dashbord() {
+function Dashboard() {
   return (
-    <div className="w-full">
+    <div className="w-full pl-[30px]">
       <div className="flex flex-row justify-end mr-10 mt-2">
         <div className="flex flex-row items-center">
           <FontAwesomeIcon
@@ -52,4 +52,4 @@ function Dashbord() {
   );
 }
 
-export default Dashbord;
+export default Dashboard;
