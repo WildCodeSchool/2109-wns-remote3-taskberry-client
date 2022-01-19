@@ -28,8 +28,13 @@ module.exports = {
     "no-console": "off",
     "no-alert": "off",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"],
+    // "@typescript-eslint/no-shadow": [
+    //   "error",
+    //   ,
+    //   { ignoreTypeValueShadow: true },
+    // ],
     "prettier/prettier": "error",
+    "@typescript-eslint/no-empty-function": "off",
   },
   ignorePatterns: [".eslintrc.js"],
 };
