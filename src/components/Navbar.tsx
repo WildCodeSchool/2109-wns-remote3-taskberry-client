@@ -16,21 +16,21 @@ btn?.addEventListener("click", () => {
 });
 function Navbar() {
   return (
-    <div className="relative min-h-screen sm:flex">
+    <div className="relative l min-h-screen sm:flex w-full">
       {/* mobile menu bar  */}
 
-      <div className="bg-purple-medium text-purple-100 flex justify-between sm:hidden">
+      <div className="bg-purple-medium min-w-screen text-purple-100 flex justify-between sm:hidden">
         {/* logo  */}
 
         <a href="#" className="text-white flex items-center space-x-2">
-          <img className="max-h-24" src="./img/favicon.ico" />
+          <img className="max-h-20 bg-contain " src="./img/favicon.ico" />
         </a>
 
         {/* mobile menu button */}
 
         <button className="mobile-menu-button p-4 focus:outline-none focus:bg-gray-700">
           <svg
-            className="h-5 w-5"
+            className="h-7 w-7"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -48,7 +48,7 @@ function Navbar() {
 
       {/* sidebar */}
 
-      <div className="sidebar bg-purple-medium text-purple-100 w-24 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full sm:relative sm:translate-x-0 transition duration-200 ease-in-out">
+      <div className="sidebar bg-purple-medium text-purple-100 text-sm w-16 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full sm:relative sm:translate-x-0 transition duration-200 ease-in-out">
         {/* logo */}
         <div>
           <a href="#" className="">
@@ -63,29 +63,29 @@ function Navbar() {
               href="#"
               className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
             >
-              <FontAwesomeIcon icon={faHome} size="3x" />
+              <FontAwesomeIcon icon={faHome} size="2x" />
               <p>Accueil</p>
             </a>
             <a
               href=""
               className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
             >
-              <FontAwesomeIcon icon={faTasks} size="3x" />
+              <FontAwesomeIcon icon={faTasks} size="2x" />
               <p>Tickets</p>
             </a>
             <a
               href=""
               className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
             >
-              <FontAwesomeIcon icon={faFolder} size="3x" />
+              <FontAwesomeIcon icon={faFolder} size="2x" />
               <p>Projets</p>
             </a>
             <a
               href=""
               className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
             >
-              <FontAwesomeIcon icon={faUsers} size="3x" />
-              <p>Equipe</p>
+              <FontAwesomeIcon icon={faUsers} size="2x" />
+              <p>Équipe</p>
             </a>
           </nav>
         </div>
