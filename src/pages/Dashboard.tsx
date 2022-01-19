@@ -5,11 +5,11 @@ import CardNewProject from "../components/CardNewProject";
 import Cardproject from "../components/Cardproject";
 import { useState } from "react";
 
-function Dashbord(): JSX.Element {
+function Dashboard(): JSX.Element {
   const [newProject, setNewProject] = useState<boolean>(false);
 
   return (
-    <div className="w-full">
+    <div className="w-full pl-[30px]">
       <div className="flex flex-row justify-end mr-10 mt-2">
         <div className="flex flex-row items-center">
           <FontAwesomeIcon
@@ -64,4 +64,4 @@ function Dashbord(): JSX.Element {
   );
 }
 
-export default Dashbord;
+export default Dashboard;
