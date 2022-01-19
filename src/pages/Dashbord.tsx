@@ -1,9 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import CardAddProject from "../components/CardAddProject";
+import CardNewProject from "../components/CardNewProject";
 import Cardproject from "../components/Cardproject";
+import { useState } from "react";
 
 function Dashbord(): JSX.Element {
+  const [newProject, setNewProject] = useState<boolean>(false);
+
   return (
     <div className="w-full">
       <div className="flex flex-row justify-end mr-10 mt-2">
@@ -29,9 +33,17 @@ function Dashbord(): JSX.Element {
               <div>
                 <Cardproject />
               </div>
-              <div>
-                <CardAddProject />
-              </div>
+              {!newProject ? (
+                <div>
+                  <a onClick={() => setNewProject(true)}>
+                    <CardAddProject />
+                  </a>
+                </div>
+              ) : (
+                <div>
+                  <CardNewProject />
+                </div>
+              )}
             </div>
           </div>
         </div>
