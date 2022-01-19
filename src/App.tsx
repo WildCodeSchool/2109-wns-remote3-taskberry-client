@@ -7,12 +7,13 @@ import AuthPage from "./pages/AuthPage";
 import Navbar from "./components/Navbar";
 import ProjectBoard from "./components/ProjectBoard";
 import AuthContext from "./store/auth-context";
+import Dashbord from "./pages/Dashbord";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
   return (
-    <div data-test="component-app">
-      <div>
+    <div data-test="component-app" className="flex">
+      {/* <div>
         <Routes>
           <Route path="/dashboards" element={<Navbar />}></Route>
         </Routes>
@@ -32,7 +33,9 @@ const App = () => {
           <Route path="/projects" element={<ProjectBoard />}></Route>
           <Route path="*" element={<Navigate to="/" />}></Route>
         </Routes>
-      </Layout>
+      </Layout> */}
+      <Navbar />
+      <Dashbord />
     </div>
   );
 };
