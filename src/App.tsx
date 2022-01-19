@@ -8,13 +8,12 @@ import Navbar from "./components/Navbar";
 import ProjectBoard from "./pages/ProjectBoard";
 import AuthContext from "./store/auth-context";
 import Dashboard from "./pages/Dashboard";
-import Dashbord from "./pages/Dashbord";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
   return (
     <div data-test="component-app" className="flex">
-      {/* <div>
+      <div>
         <Routes>
           <Route path="/dashboard" element={<Navbar />}></Route>
         </Routes>
@@ -37,9 +36,8 @@ const App = () => {
           <Route path="*" element={<Navigate to="/" />}></Route>
           <Route path="/dashboards" element={<Dashboard />}></Route>
         </Routes>
-      </Layout> */}
+      </Layout>
       <Navbar />
-      <Dashbord />
     </div>
   );
 };
