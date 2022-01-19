@@ -2,7 +2,7 @@ import React from "react";
 import CardAddTicket from "../components/CardAddTicket";
 import Cardticket from "./Cardticket";
 
-function ProjectBoard() {
+const ProjectBoard = () => {
   return (
     <div className="w-screen  px-10 bg-white md:flex  items-end mb-16 ">
       <div className=" relative bg-gray-100 m-8 md:w-1/4 h-4/5 flex  flex-wrap  shadow-lg sm:rounded-3xl sm:p-4 p-5">
@@ -29,6 +29,6 @@ function ProjectBoard() {
       </div>
     </div>
   );
-}
+};
 
 export default ProjectBoard;
