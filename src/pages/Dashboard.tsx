@@ -19,44 +19,46 @@ function Dashboard(): JSX.Element {
           <p>Jane Doe</p>
         </div>
       </div>
-      <div className="flex flex-row justify-around items-center mt-8">
-        <div className="relative w-[370px] h-[770px] flex align-end">
-          <div className="rounded-full w-[125px] py-2 px-6 bg-purple-dark text-white absolute right-0 font-bold">
-            À faire
-          </div>
-          <div className="bg-gray-ligth w-[350px] max-h-[750px] rounded-2xl shadow-lg mt-5">
-            <div className="max-h-[700px] mt-8 overflow-y-auto flex flex-col space-y-6 justify-start items-center">
-              <div>
-                <Cardproject />
-              </div>
-              <div>
-                <Cardproject />
-              </div>
-              {!newProject ? (
+      <div className="w-[90%] flex justify-center sm:ml-[50px]">
+        <div className="flex flex-nowrap  items-center overflow-x-auto h-full">
+          <div className="relative w-[240px] h-[600px] lg:w-[370px] lg:h-[770px] flex align-end">
+            <div className="rounded-full w-[125px] py-2 px-6 bg-purple-dark text-white absolute right-0 font-bold">
+              À faire
+            </div>
+            <div className="bg-gray-ligth w-[200px] max-h-[580px] lg:w-[350px] lg:max-h-[750px] rounded-2xl shadow-lg mt-5">
+              <div className="max-h-[580px] lg:max-h-[700px] mt-8 overflow-y-auto flex flex-col space-y-6 justify-start items-center">
                 <div>
-                  <a onClick={() => setNewProject(true)}>
-                    <CardAddProject />
-                  </a>
+                  <Cardproject />
                 </div>
-              ) : (
                 <div>
-                  <CardNewProject />
+                  <Cardproject />
                 </div>
-              )}
+                {!newProject ? (
+                  <div>
+                    <a onClick={() => setNewProject(true)}>
+                      <CardAddProject />
+                    </a>
+                  </div>
+                ) : (
+                  <div>
+                    <CardNewProject />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="relative w-[370px] h-[770px] flex align-end">
-          <div className="rounded-full w-[125px] py-2 px-6 bg-purple-dark text-white absolute right-0 font-bold">
-            En cours
+          <div className="relative w-[240px] h-[600px] lg:w-[370px] lg:h-[770px] flex align-end">
+            <div className="rounded-full w-[125px] py-2 px-6 bg-purple-dark text-white absolute right-0 font-bold">
+              En cours
+            </div>
+            <div className="flex flex-col bg-gray-ligth w-[200px] max-h-[580px] lg:w-[350px] lg:max-h-[750px] rounded-2xl shadow-lg mt-5"></div>
           </div>
-          <div className="flex flex-col bg-gray-ligth w-[350px] max-h-[750px] rounded-2xl shadow-lg mt-5"></div>
-        </div>
-        <div className="relative w-[370px] h-[770px] flex align-end">
-          <div className="rounded-full w-[125px] py-2 px-6 bg-purple-dark text-white absolute right-0 font-bold">
-            Validé
+          <div className="relative w-[240px] h-[600px] lg:w-[370px] lg:h-[770px] flex align-end">
+            <div className="rounded-full w-[125px] py-2 px-6 bg-purple-dark text-white absolute right-0 font-bold">
+              Validé
+            </div>
+            <div className="flex flex-col bg-gray-ligth w-[200px] max-h-[580px] lg:w-[350px] lg:max-h-[750px] rounded-2xl shadow-lg mt-5"></div>
           </div>
-          <div className="flex flex-col bg-gray-ligth w-[350px] max-h-[750px] rounded-2xl shadow-lg mt-5"></div>
         </div>
       </div>
     </div>
