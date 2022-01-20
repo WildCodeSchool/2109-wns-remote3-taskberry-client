@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import AuthContext from "../store/auth-context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -15,8 +18,13 @@ btn?.addEventListener("click", () => {
   sidebar?.classList.toggle("-translate-x-full");
 });
 function Navbar() {
+  const authCtx = useContext(AuthContext);
+  const isLoggedIn = authCtx.isLoggedIn;
+  const logoutHandler = () => {
+    authCtx.logout();
+  };
   return (
-    <div className="relative l min-h-screen sm:flex w-full">
+    <div className="absolute min-h-screen sm:flex md:w-auto w-100">
       {/* mobile menu bar  */}
 
       <div className="bg-purple-medium min-w-screen text-purple-100 flex justify-between sm:hidden">
@@ -57,36 +65,62 @@ function Navbar() {
         </div>
 
         {/* nav */}
-        <div className="content-center justify-center flex flex-wrap h-[calc(100%-200px)] mt-0">
+        <div className="content-center justify-center items-center flex flex-wrap h-[calc(100%-200px)] mt-0">
           <nav>
-            <a
-              href="#"
-              className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
-            >
-              <FontAwesomeIcon icon={faHome} size="2x" />
-              <p>Accueil</p>
-            </a>
-            <a
-              href=""
-              className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
-            >
-              <FontAwesomeIcon icon={faTasks} size="2x" />
-              <p>Tickets</p>
-            </a>
-            <a
-              href=""
-              className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
-            >
-              <FontAwesomeIcon icon={faFolder} size="2x" />
-              <p>Projets</p>
-            </a>
-            <a
-              href=""
-              className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
-            >
-              <FontAwesomeIcon icon={faUsers} size="2x" />
-              <p>Équipe</p>
-            </a>
+            {!isLoggedIn && (
+              <Link
+                className="no-underline text-white font-bold hover:text-pink-300"
+                to="/auth"
+              >
+                <a
+                  href="#"
+                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                >
+                  <FontAwesomeIcon icon={faHome} size="2x" />
+                  <p>Login</p>
+                </a>
+              </Link>
+            )}
+            {isLoggedIn && (
+              <div>
+                <a
+                  href="#"
+                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                >
+                  <FontAwesomeIcon icon={faHome} size="2x" />
+                  <p>Accueil</p>
+                </a>
+                <a
+                  href=""
+                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                >
+                  <FontAwesomeIcon icon={faTasks} size="2x" />
+                  <p>Tickets</p>
+                </a>
+                <a
+                  href=""
+                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                >
+                  <FontAwesomeIcon icon={faFolder} size="2x" />
+                  <p>Projets</p>
+                </a>
+                <a
+                  href=""
+                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                >
+                  <FontAwesomeIcon icon={faUsers} size="2x" />
+                  <p>Équipe</p>
+                </a>
+                <a
+                  href=""
+                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                  onClick={logoutHandler}
+                >
+                  <FontAwesomeIcon icon={faUsers} size="2x" />
+                  <p>LogOut</p>
+                </a>
+              </div>
+            )}
           </nav>
         </div>
       </div>

@@ -5,19 +5,16 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
 import Navbar from "./components/Navbar";
-import ProjectBoard from "./components/ProjectBoard";
+import ProjectBoard from "./pages/ProjectBoard";
 import AuthContext from "./store/auth-context";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
   return (
     <div data-test="component-app">
-      <div>
-        <Routes>
-          <Route path="/dashboards" element={<Navbar />}></Route>
-        </Routes>
-      </div>
       <Layout>
+        <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
           <Route
@@ -31,8 +28,10 @@ const App = () => {
           )}
           <Route path="/projects" element={<ProjectBoard />}></Route>
           <Route path="*" element={<Navigate to="/" />}></Route>
+          <Route path="/dashboards" element={<Dashboard />}></Route>
         </Routes>
       </Layout>
+      <Navbar />
     </div>
   );
 };
