@@ -4,7 +4,6 @@ import CardNewTicket from "../components/CardNewTicket";
 import Cardticket from "./Cardticket";
 import { useState } from "react";
 
-
 const ProjectBoard = () => {
   const [newTicket, setNewTicket] = useState<boolean>(false);
   return (
@@ -14,13 +13,10 @@ const ProjectBoard = () => {
           À faire
         </div>
         <Cardticket />
-        <CardAddTicket />
         {!newTicket ? (
-          <div>
-            <a onClick={() => setNewTicket(true)}>
-              <CardAddTicket />
-            </a>
-          </div>
+          <a onClick={() => setNewTicket(true)}>
+            <CardAddTicket />
+          </a>
         ) : (
           <div>
             <CardNewTicket />
