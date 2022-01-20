@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function Dashboard(): JSX.Element {
   const [newProject, setNewProject] = useState<boolean>(false);
+
   return (
     <div className="w-full pl-[30px]">
       <div className="flex flex-row justify-end mr-10 mt-2">
