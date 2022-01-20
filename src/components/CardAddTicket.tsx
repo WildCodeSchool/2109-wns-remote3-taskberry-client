@@ -4,9 +4,19 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function CardAddTicket() {
   return (
-    <div className="w-full p-2 my-4 bg-white rounded-2xl flex-col flex-wrap  ">
-      <p className="text-xl text-center p-4">Créer un nouveau ticket</p>
-      <FontAwesomeIcon icon={faPlus} size="3x" />
+    <div className="w-full p-2 my-4 bg-white rounded-2xl flex-col flex-wrap ">
+      <a href="#" className="group block p-6 ">
+        <div className="flex flex-column justify-around items-center space-x-3">
+          <FontAwesomeIcon
+            icon={faPlus}
+            size="2x"
+            className="stroke-sky-500 "
+          />
+          <h3 className="text-slate-900 text-sm font-semibold">
+            Créer un nouveau ticket
+          </h3>
+        </div>
+      </a>
     </div>
   );
 }
