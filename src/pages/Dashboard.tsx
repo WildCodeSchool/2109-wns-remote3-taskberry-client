@@ -7,6 +7,60 @@ import { useState } from "react";
 
 function Dashboard(): JSX.Element {
   const [newProject, setNewProject] = useState<boolean>(false);
+  const fakeDataProject = [
+    {
+      id: "9845612",
+      title: "Projet NodeJS",
+      date: "10/01/2021",
+      userAvatar: "./img/avatar_jane.png",
+      team: [
+        {
+          avatar: "./img/avatar_anne.png",
+        },
+        {
+          avatar: "./img/avatar_jane.png",
+        },
+        {
+          avatar: "./img/avatar_john.png",
+        },
+      ],
+    },
+    {
+      id: "98456852",
+      title: "Projet React",
+      date: "10/01/2021",
+      userAvatar: "./img/avatar_jane.png",
+      team: [
+        {
+          avatar: "./img/avatar_anne.png",
+        },
+        {
+          avatar: "./img/avatar_jane.png",
+        },
+        {
+          avatar: "./img/avatar_john.png",
+        },
+      ],
+    },
+    {
+      id: "98456745",
+      title: "Projet BDD",
+      date: "10/01/2021",
+      userAvatar: "./img/avatar_jane.png",
+      team: [
+        {
+          avatar: "./img/avatar_anne.png",
+        },
+        {
+          avatar: "./img/avatar_jane.png",
+        },
+        {
+          avatar: "./img/avatar_john.png",
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="w-full pl-[30px]">
       <div className="flex flex-row justify-end mr-10 mt-2">
@@ -27,12 +81,12 @@ function Dashboard(): JSX.Element {
             </div>
             <div className="bg-gray-ligth w-[200px] max-h-[580px] lg:w-[350px] lg:max-h-[750px] rounded-2xl shadow-lg mt-5">
               <div className="max-h-[580px] lg:max-h-[700px] mt-8 overflow-y-auto flex flex-col space-y-6 justify-start items-center">
-                <div>
-                  <Cardproject />
-                </div>
-                <div>
-                  <Cardproject />
-                </div>
+                {fakeDataProject.map((card) => (
+                  <div key={card.id}>
+                    <Cardproject {...card} />
+                  </div>
+                ))}
+
                 {!newProject ? (
                   <div>
                     <a onClick={() => setNewProject(true)}>
