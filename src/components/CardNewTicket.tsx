@@ -26,7 +26,12 @@ function CardNewTicket() {
 
           <div className="flex mb-2">
             <label className=" text-base font-bold"> Statut :</label>
-            <select name="status" id="select-status" className="bg-white  ml-2" required>
+            <select
+              name="status"
+              id="select-status"
+              className="bg-white  ml-2"
+              required
+            >
               <option value="">En cours</option>
               <option value="">Code review</option>
               <option value="">Terminé</option>
