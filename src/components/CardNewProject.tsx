@@ -4,21 +4,8 @@ import DatePicker, { DayValue, Day } from "react-modern-calendar-datepicker";
 import { gql, useMutation } from "@apollo/client";
 
 const CREATE_PROJECT = gql`
-  mutation createProject(
-    $name: string
-    $description: string
-    $createdAt: Date
-    $estimateEndAt: Date
-    $userId: number
-    $roleId: number
-  ) {
-    createProject(
-      name: $name
-      description: $description
-      createdAt: $createdAt
-      estimateEndAt: $estimateEndAt
-      UsersInProject: { userId: $userId, roleId: $roleId }
-    ) {
+  mutation Mutation($projectInput: ProjectInput!) {
+    createProject(projectInput: $projectInput) {
       id
       name
       description
@@ -76,13 +63,15 @@ function CardNewProject(): JSX.Element {
             onClick={() =>
               createProject({
                 variables: {
-                  name: title,
-                  description: "lorem ipsum",
-                  createdAt: new Date().toISOString(),
-                  estimateEndAt: new Date().toISOString(),
-                  UsersInProject: {
-                    userId: 1,
-                    roleId: 1,
+                  projectInput: {
+                    name: title,
+                    description: "lorem ipsum",
+                    createdAt: new Date().toISOString(),
+                    estimateEndAt: new Date().toISOString(),
+                    UsersInProject: {
+                      userId: 1,
+                      roleId: 1,
+                    },
                   },
                 },
               })
