@@ -5,8 +5,8 @@ interface Team {
 }
 interface CardData {
   id: string;
-  title: string;
-  date: string;
+  name: string;
+  estimateEndAt: string;
   userAvatar: string;
   team: Team[];
 }
@@ -16,10 +16,10 @@ const Cardproject: React.FC<CardData> = (props) => {
     <div className="bg-white rounded-2xl h-[250px] w-[290px] flex">
       <div className="p-5">
         <div className="flex-col">
-          <p className="text-xl text-left">{props.title}</p>
+          <p className="text-xl text-left">{props.name}</p>
         </div>
         <div className="flex-col">
-          <p className="text-sm text-left mt-1">Date: {props.date}</p>
+          <p className="text-sm text-left mt-1">Date: {props.estimateEndAt}</p>
         </div>
         <div className="flex-col">
           <p className="text-sm text-left mt-1">Chef de projet :</p>
