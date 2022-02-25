@@ -1,7 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
+
+const GET_PROJECT_USERS = gql`
+  query Query($projectId: Float!) {
+    getProjectTickets(projectId: $projectId) {
+      id
+      name
+      description
+      createdAt
+      finishedAt
+      projectId
+      statusId
+      assigneeId
+    }
+  }
+`;
 
 const CREATE_TICKET = gql`
   mutation Mutation($ticketInput: TicketInput!) {
@@ -17,17 +32,26 @@ const CREATE_TICKET = gql`
   }
 `;
 
-function CardNewTicket() {
+function CardNewTicket(props: any): JSX.Element {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [statusId, setStatusId] = useState("");
+  const [statusId, setStatusId] = useState<number>();
   const [createTicket, { data, loading, error }] = useMutation(CREATE_TICKET);
-  console.log(createTicket);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    if (data && data.getProjectTickets) {
+      setUsers(data.getProjectTickets);
+    }
+  }, [data]);
+  if (loading) return <span>Loading...</span>;
+  if (error) return <div>`Error! ${error.message}`</div>;
   return (
     <div className="space-y-4 animated fadeIn faster  fixed  left-0 top-0 flex justify-center bg-gray-900/80 items-center inset-0 z-50 outline-none focus:outline-none ">
       <div className="w-[800px] h-auto flex flex-col py-4 px-6 bg-gray-200 shadow-md hover:shodow-lg rounded-2xl ">
         <button className="self-end ">
           <FontAwesomeIcon
+            onClick={() => props.setShow(false)}
             className="h-6 mb-2 fill-current text-purple-medium text-4xl "
             icon={faTimes}
           />
@@ -58,12 +82,14 @@ function CardNewTicket() {
               className="bg-white  ml-2"
               required
               onChange={(e) => {
-                setStatusId(e.currentTarget.value);
+                const valueStatus = parseInt(e.currentTarget.value);
+                setStatusId(valueStatus);
               }}
             >
-              <option value="1">En cours</option>
-              <option value="2">Code review</option>
-              <option value="3">Terminé</option>
+              <option value="1">À faire</option>
+              <option value="2">En cours</option>
+              <option value="3">Review</option>
+              <option value="4">Terminé</option>
             </select>
           </div>
           <div className="flex">
@@ -72,15 +98,21 @@ function CardNewTicket() {
               name="members"
               id="members-assigned"
               className="bg-white  ml-2"
+              required
+              onChange={(e) => {
+                const valueMembers = parseInt(e.currentTarget.value);
+                setStatusId(valueMembers);
+              }}
             >
-              <option value="">John</option>
-              <option value="">Jane</option>
-              <option value="">Anne</option>
+              <option value="1">John</option>
+              <option value="2">Jane</option>
+              <option value="3">Anne</option>
+              <option value="4">Mark</option>
             </select>
           </div>
           <div className="flex-col text-center">
             <input
-              className="bg-indigo-900  my-3 hover:bg-purple-dark text-white font-bold py-1 px-4 rounded-3xl "
+              className="bg-indigo-900  my-3 hover:bg-purple-dark text-white font-bold py-1 rounded-3xl text-center"
               value="Enregistrer"
               onClick={() =>
                 createTicket({
@@ -90,6 +122,8 @@ function CardNewTicket() {
                       description: description,
                       createdAt: new Date().toISOString(),
                       statusId: statusId,
+                      projectId: 2,
+                      assigneeId: 1,
                     },
                   },
                 })

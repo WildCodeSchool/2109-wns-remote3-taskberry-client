@@ -6,7 +6,7 @@ import { AuthContextProvider } from "./store/auth-context";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000/",
+  uri: "http://localhost:4000/",
   cache: new InMemoryCache(),
 });
 
