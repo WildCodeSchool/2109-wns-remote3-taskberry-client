@@ -1,15 +1,12 @@
-import CardAddTicket from "../components/CardAddTicket";
-import CardNewTicket from "../components/CardNewTicket";
-import Cardticket from "../components/Cardticket";
-import Column from "../components/Column";
+import TicketColumn from "../components/TicketColumn";
 
 function ProjectBoard(): JSX.Element {
   return (
     <div className="min-h-screen ml-10 px-4 bg-white md:flex  items-end ">
-      <Column statusId={1} label="À faire"></Column>
-      <Column statusId={2} label="En cours"></Column>
-      <Column statusId={3} label="Review"></Column>
-      <Column statusId={4} label="Terminé"></Column>
+      <TicketColumn statusId={1} label="À faire"></TicketColumn>
+      <TicketColumn statusId={2} label="En cours"></TicketColumn>
+      <TicketColumn statusId={3} label="Review"></TicketColumn>
+      <TicketColumn statusId={4} label="Terminé"></TicketColumn>
     </div>
   );
 }
