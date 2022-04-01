@@ -10,6 +10,13 @@ interface TicketColumnProps {
   label: string;
   statusId: number;
 }
+export interface Ticket {
+  id: number;
+  name: string;
+  description: string;
+  assigneeId: number;
+  statusId: number;
+}
 const TicketColumn: FC<TicketColumnProps> = ({ label, statusId }) => {
   const [newTicket, setNewTicket] = useState<boolean>(false);
 
@@ -17,6 +24,7 @@ const TicketColumn: FC<TicketColumnProps> = ({ label, statusId }) => {
 
   const { data, loading, error } = useQuery(GET_PROJECT_TICKETS, {
     variables: { projectId: 2 },
+    pollInterval: 500,
   });
   useEffect(() => {
     if (data && data.getProjectTickets) {
@@ -24,24 +32,25 @@ const TicketColumn: FC<TicketColumnProps> = ({ label, statusId }) => {
     }
   }, [data]);
   if (loading) return <span>Loading...</span>;
-  if (error) return <div>`Error! ${error.message}`</div>;
+  if (error) return <div>{`Error! ${error.message}`}</div>;
 
   return (
     <div className=" relative bg-gray-100 m-8 md:w-1/4 h-[800px] flex  flex-wrap  content-start shadow-lg sm:rounded-3xl sm:p-2 ">
       <div className="absolute -right-3 -top-5 bg-purple-dark rounded-full flex justify-center items-center py-2 px-6 text-white font-bold sm:text-xl">
         {label}
       </div>
-      {tickets.map((item: any) => {
-        if (item.statusId === statusId) {
-          return (
-            <Cardticket
-              key={item.id}
-              title={`#${item.id} ${item.name}`}
-              assigneeId={item.assigneeId}
-            ></Cardticket>
-          );
-        }
-      })}
+      {tickets &&
+        tickets.map((item: Ticket) => {
+          if (item.statusId === statusId) {
+            return (
+              <Cardticket
+                key={item.id}
+                title={`#${item.id} ${item.name}`}
+                assigneeId={item.assigneeId}
+              ></Cardticket>
+            );
+          }
+        })}
 
       {statusId == 1 ? (
         !newTicket ? (

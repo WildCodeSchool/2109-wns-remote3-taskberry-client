@@ -7,6 +7,10 @@ interface TicketProps {
   title: string;
   assigneeId: number;
 }
+export interface Member {
+  id: number;
+  profilePicture: string;
+}
 export const Cardticket: FC<TicketProps> = ({ title, assigneeId }) => {
   const [members, setMembers] = useState([]);
   const { data: membersData } = useQuery(GET_PROJECT_MEMBERS, {
@@ -23,12 +27,13 @@ export const Cardticket: FC<TicketProps> = ({ title, assigneeId }) => {
       <div className=" bg-white flex flex-col p-4 rounded-xl mb-3">
         <p className="text-l font-bold text-left ">{title}</p>
         <div className="flex self-end justify-around items-center">
-          {members.map((item: any) => {
-            console.log("assigneeID", typeof assigneeId);
-            console.log("item.id", typeof item.id);
+          {members.map((member: Member) => {
             return (
-              assigneeId === Number(item.id) && (
-                <MemberAssignee key={item.id} assignee={item.profilePicture} />
+              assigneeId === Number(member.id) && (
+                <MemberAssignee
+                  key={member.id}
+                  assigneePicture={member.profilePicture}
+                />
               )
             );
           })}
