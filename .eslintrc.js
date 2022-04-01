@@ -35,6 +35,7 @@ module.exports = {
     // ],
     "prettier/prettier": "error",
     "@typescript-eslint/no-empty-function": "off",
+    "react/jsx-key": "off"
   },
   ignorePatterns: [".eslintrc.js"],
 };

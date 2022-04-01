@@ -1,49 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { gql, useMutation, useQuery } from "@apollo/client";
-
-const GET_PROJECT_USERS = gql`
-  query Query($projectId: Float!) {
-    getProjectTickets(projectId: $projectId) {
-      id
-      name
-      description
-      createdAt
-      finishedAt
-      projectId
-      statusId
-      assigneeId
-    }
-  }
-`;
-
-const CREATE_TICKET = gql`
-  mutation Mutation($ticketInput: TicketInput!) {
-    createTicket(ticketInput: $ticketInput) {
-      id
-      name
-      description
-      createdAt
-      projectId
-      assigneeId
-      statusId
-    }
-  }
-`;
+import {
+  CREATE_TICKET,
+  GET_USER_PROJECTS,
+  GET_PROJECT_MEMBERS,
+} from "../GraphQL/API";
+import { ProjectContext } from "../providers/ProjectProvider";
 
 function CardNewTicket(props: any): JSX.Element {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [statusId, setStatusId] = useState<number>();
+  const [assigneeId, setAssigneeId] = useState<number>();
   const [createTicket, { data, loading, error }] = useMutation(CREATE_TICKET);
   const [users, setUsers] = useState([]);
+  const { projectId } = useContext(ProjectContext);
+  const [members, setMembers] = useState([]);
+  const { data: membersData } = useQuery(GET_PROJECT_MEMBERS, {
+    variables: { projectId: 2 },
+  });
 
   useEffect(() => {
     if (data && data.getProjectTickets) {
       setUsers(data.getProjectTickets);
     }
   }, [data]);
+  useEffect(() => {
+    if (membersData && membersData.getProjectUsers) {
+      setMembers(membersData.getProjectUsers);
+    }
+  }, [membersData]);
+
   if (loading) return <span>Loading...</span>;
   if (error) return <div>`Error! ${error.message}`</div>;
   return (
@@ -73,7 +62,6 @@ function CardNewTicket(props: any): JSX.Element {
               setDescription(e.currentTarget.value);
             }}
           ></textarea>
-
           <div className="flex mb-2">
             <label className=" text-base font-bold"> Statut :</label>
             <select
@@ -86,6 +74,7 @@ function CardNewTicket(props: any): JSX.Element {
                 setStatusId(valueStatus);
               }}
             >
+              <option>Sélectionner </option>
               <option value="1">À faire</option>
               <option value="2">En cours</option>
               <option value="3">Review</option>
@@ -101,15 +90,20 @@ function CardNewTicket(props: any): JSX.Element {
               required
               onChange={(e) => {
                 const valueMembers = parseInt(e.currentTarget.value);
-                setStatusId(valueMembers);
+                setAssigneeId(valueMembers);
               }}
             >
-              <option value="1">John</option>
-              <option value="2">Jane</option>
-              <option value="3">Anne</option>
-              <option value="4">Mark</option>
+              <option>Sélectionner </option>
+              {members.map((item: any) => {
+                return (
+                  <option key={item.id} value={item.id}>
+                    {`${item.firstName} ${item.lastName}`}
+                  </option>
+                );
+              })}
             </select>
           </div>
+
           <div className="flex-col text-center">
             <input
               className="bg-indigo-900  my-3 hover:bg-purple-dark text-white font-bold py-1 rounded-3xl text-center"
@@ -123,7 +117,7 @@ function CardNewTicket(props: any): JSX.Element {
                       createdAt: new Date().toISOString(),
                       statusId: statusId,
                       projectId: 2,
-                      assigneeId: 1,
+                      assigneeId: assigneeId,
                     },
                   },
                 })
