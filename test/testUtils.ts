@@ -11,7 +11,7 @@ import ReactDOM from "react-dom";
  * @param {string} val - Value of data-test attribute for search.
  * @returns {ShallowWrapper}
  */
-export const findByTestAttr = (wrapper: ShallowWrapper, val: string) => {
+export const findByTestAttr = (wrapper: ShallowWrapper,) => {
   return wrapper.find(`[data-test="${val}"]`);
 };
 
