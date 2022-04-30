@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import CardAddTicket from "./CardAddTicket";
 import CardNewTicket from "./CardNewTicket";
-import { GET_PROJECT_TICKETS, GET_PROJECT_MEMBERS } from "../GraphQL/API";
-import { TicketColumnProps, Ticket } from "../models/TicketConfig";
+import { GET_PROJECT_TICKETS, GET_PROJECT_MEMBERS } from "../../GraphQL/API";
+import { TicketColumnProps, Ticket } from "../../models/TicketConfig";
 
 const TicketColumn: FC<TicketColumnProps> = ({ label, statusId }) => {
   const [newTicket, setNewTicket] = useState<boolean>(false);

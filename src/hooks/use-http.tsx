@@ -1,7 +1,9 @@
 import { useState, useContext } from "react";
-import RequestConfig from "../models/RequestConfig";
+import RequestConfig, { LogRequest } from "../models/RequestConfig";
 import AuthContext from "../store/auth-context";
 import { useNavigate } from "react-router-dom";
+import { gql, useQuery } from "@apollo/client";
+import { LOGIN_USER } from "../GraphQL/API";
 
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

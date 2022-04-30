@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
-import { GET_PROJECT_MEMBERS } from "../GraphQL/API";
-import MemberAssignee from "./MemberAssignee";
-import { Member } from "../models/MemberConfig";
-import { TicketProps } from "../models/TicketConfig";
+import { GET_PROJECT_MEMBERS } from "../../GraphQL/API";
+import MemberAssignee from "../MemberAssignee";
+import { Member } from "../../models/MemberConfig";
+import { TicketProps } from "../../models/TicketConfig";
 
 export const Cardticket: FC<TicketProps> = ({ title, assigneeId }) => {
   const [members, setMembers] = useState([]);

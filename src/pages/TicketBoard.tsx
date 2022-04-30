@@ -1,4 +1,4 @@
-import TicketColumn from "../components/TicketColumn";
+import TicketColumn from "../components/Tickets/TicketColumn";
 
 function TicketBoard(): JSX.Element {
   return (

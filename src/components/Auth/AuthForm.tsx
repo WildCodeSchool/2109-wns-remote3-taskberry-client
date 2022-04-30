@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
 import useHttp from "../../hooks/use-http";
+import { gql, useQuery } from "@apollo/client";
+import { LOGIN_USER } from "../../GraphQL/API";
 import AuthButton from "../Button/AuthButton";
 import AuthToggleButton from "../Button/AuthToggleButton";
 import validate from "../../helpers/loginFormValidationRules";
@@ -22,6 +24,7 @@ const AuthForm: React.FC = () => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [loggedUser, setLOggedUser] = useState([]);
 
   const switchAuthModeHandler = (): void => {
     setIsLogin((prevState) => !prevState);
@@ -51,6 +54,23 @@ const AuthForm: React.FC = () => {
     if (Object.keys(errors).length === 0 && Object.keys(values).length !== 0) {
       login();
       let url;
+      if (isLogin) {
+        url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+      } else {
+        url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+      }
+      signLoginRequest({
+        url: url,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          email: enteredEmail,
+          password: enteredPassword,
+          returnSecureToken: true,
+        },
+      });
       if (isLogin) {
         url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
       } else {

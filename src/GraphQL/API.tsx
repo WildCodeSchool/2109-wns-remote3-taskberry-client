@@ -65,3 +65,21 @@ export const CREATE_TICKET = gql`
     }
   }
 `;
+
+export const LOGIN_USER = gql`
+  query Query($password: String!, $email: String!) {
+    loginUser(password: $password, email: $email)
+  }
+`;
+
+export const CREATE_USER = gql`
+  mutation Mutation($userInput: UserMutation!) {
+    createUser(userInput: $userInput) {
+      id
+      profilePicture
+      firstName
+      lastName
+      email
+    }
+  }
+`;

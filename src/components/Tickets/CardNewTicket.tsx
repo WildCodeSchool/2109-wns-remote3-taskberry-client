@@ -2,8 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQuery } from "@apollo/client";
-import { CREATE_TICKET, GET_PROJECT_MEMBERS } from "../GraphQL/API";
-import { ProjectContext } from "../providers/ProjectProvider";
+import { CREATE_TICKET, GET_PROJECT_MEMBERS } from "../../GraphQL/API";
+import { ProjectContext } from "../../providers/ProjectProvider";
 
 function CardNewTicket(props: any): JSX.Element {
   const [title, setTitle] = useState("");

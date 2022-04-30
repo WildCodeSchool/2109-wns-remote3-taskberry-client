@@ -1,6 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { GET_PROJECT_TICKETS, GET_PROJECT_MEMBERS } from "../../GraphQL/API";
+import {
+  GET_PROJECT_TICKETS,
+  GET_PROJECT_MEMBERS,
+  LOGIN_USER,
+} from "../../GraphQL/API";
 import { toDateLongFormat, toDateObject } from "../../helpers/dates";
 import { ProjectProps } from "../../models/ProjectConfig";
 import MemberAssignee from "../MemberAssignee";
@@ -35,6 +39,16 @@ export const Cardproject: FC<ProjectProps> = ({
     variables: { projectId: idProject },
   });
 
+  const { data: userData } = useQuery(LOGIN_USER, {
+    variables: {
+      email: "johnnyd@gmail.com",
+      password: "Test123456",
+    },
+    // pollInterval: 500,
+  });
+
+  console.log("userData", userData);
+
   useEffect(() => {
     if (ticketsData && ticketsData.getProjectTickets) {
       setTickets(ticketsData.getProjectTickets);
@@ -50,12 +64,12 @@ export const Cardproject: FC<ProjectProps> = ({
   if (loading) return <span>Loading...</span>;
   if (error) return <div>{`Error! ${error.message}`}</div>;
 
-  console.log("tickets", tickets.length);
-  console.log("membersData", membersData);
+  // console.log("tickets", tickets.length);
+  // console.log("membersData", membersData);
 
   return (
     <div className="bg-white rounded-2xl h-[370px] w-[400px] flex">
-      <div className="w-full rounded-2xl p-5 bg-red-900">
+      <div className="w-full rounded-2xl p-5">
         <div className="flex justify-between content-start py-0.5 mb-2 ">
           <div className="flex flex-col">
             <p className="text-xl text-left">{name}</p>
@@ -67,7 +81,7 @@ export const Cardproject: FC<ProjectProps> = ({
           </p>
         </div>
         <hr className="py-1.5"></hr>
-        <div className="flex justify-between content-start bg-red-500 flex-nowrap">
+        <div className="flex justify-between content-start flex-nowrap">
           <div className="flex flex-col">
             <p className="text-sm text-left mt-1 mb-0.5 ">
               créé le :<p>{projectCreatedAt}</p>
