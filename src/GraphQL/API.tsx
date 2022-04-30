@@ -15,6 +15,19 @@ export const GET_PROJECT_TICKETS = gql`
   }
 `;
 
+export const GET_PROJECTS = gql`
+  query Query {
+    getProjects {
+      id
+      name
+      finishedAt
+      estimateEndAt
+      description
+      createdAt
+    }
+  }
+`;
+
 export const GET_USER_PROJECTS = gql`
   query GetUsers($userId: Float!) {
     getUserProjects(userId: $userId) {

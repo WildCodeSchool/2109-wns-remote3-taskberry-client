@@ -1,6 +1,6 @@
 import TicketColumn from "../components/TicketColumn";
 
-function ProjectBoard(): JSX.Element {
+function TicketBoard(): JSX.Element {
   return (
     <div className="min-h-screen ml-10 px-4 bg-white md:flex  items-end ">
       <TicketColumn statusId={1} label="À faire"></TicketColumn>
@@ -11,4 +11,4 @@ function ProjectBoard(): JSX.Element {
   );
 }
 
-export default ProjectBoard;
+export default TicketBoard;

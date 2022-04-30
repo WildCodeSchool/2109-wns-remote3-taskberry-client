@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
 import Navbar from "./components/Navbar";
-import ProjectBoard from "./pages/ProjectBoard";
+import TicketBoard from "./pages/TicketBoard";
 import AuthContext from "./store/auth-context";
 import Dashboard from "./pages/Dashboard";
 
@@ -26,7 +26,7 @@ const App = () => {
           {!authCtx.isLoggedIn && (
             <Route path="/auth" element={<AuthPage />}></Route>
           )}
-          <Route path="/tickets" element={<ProjectBoard />}></Route>
+          <Route path="/tickets" element={<TicketBoard />}></Route>
           <Route path="*" element={<Navigate to="/" />}></Route>
           <Route path="/dashboards" element={<Dashboard />}></Route>
         </Routes>
