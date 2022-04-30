@@ -28,7 +28,7 @@ const App: React.FC = () => {
           )}
           <Route path="/tickets" element={<TicketBoard />}></Route>
           <Route path="*" element={<Navigate to="/" />}></Route>
-          <Route path="/dashboards" element={<Projects />}></Route>
+          <Route path="/projects" element={<Projects />}></Route>
         </Routes>
       </Layout>
     </div>

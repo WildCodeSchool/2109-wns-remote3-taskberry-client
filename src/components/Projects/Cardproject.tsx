@@ -5,6 +5,8 @@ import { toDateLongFormat, toDateObject } from "../../helpers/dates";
 import { ProjectProps } from "../../models/ProjectConfig";
 import MemberAssignee from "../MemberAssignee";
 import { Member } from "../../models/MemberConfig";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export const Cardproject: FC<ProjectProps> = ({
   idProject,
@@ -48,37 +50,43 @@ export const Cardproject: FC<ProjectProps> = ({
   if (loading) return <span>Loading...</span>;
   if (error) return <div>{`Error! ${error.message}`}</div>;
 
-  console.log("tickets", tickets);
+  console.log("tickets", tickets.length);
   console.log("membersData", membersData);
 
   return (
-    <div className="bg-white rounded-2xl h-[350px] w-[400px] flex">
-      <div className="p-5">
-        <div className="flex-col">
-          <p className="text-xl text-left">{name}</p>
-        </div>
-        <div className="flex-col">
-          <p className="text-xl text-left pb-2.5">{projectDetail}</p>
+    <div className="bg-white rounded-2xl h-[370px] w-[400px] flex">
+      <div className="w-full rounded-2xl p-5 bg-red-900">
+        <div className="flex justify-between content-start py-0.5 mb-2 ">
+          <div className="flex flex-col">
+            <p className="text-xl text-left">{name}</p>
+            <p className="text-lg text-left pb-1.5">{projectDetail}</p>
+          </div>
+          <p className="text-sm text-center  bg-gray-500 rounded-2xl px-3 py-3 ">
+            {tickets.length}
+            <p>Tickets</p>
+          </p>
         </div>
         <hr className="py-1.5"></hr>
-        <div className="flex-col">
-          <p className="text-sm text-left mt-1">créé le : {projectCreatedAt}</p>
-        </div>
-        {projectFinishedAt && (
-          <div className="flex-col">
-            <p className="text-sm text-left mt-1">
-              date de livraison le : {projectFinishedAt}
+        <div className="flex justify-between content-start bg-red-500 flex-nowrap">
+          <div className="flex flex-col">
+            <p className="text-sm text-left mt-1 mb-0.5 ">
+              créé le :<p>{projectCreatedAt}</p>
             </p>
+            {projectFinishedAt && (
+              <p className="text-sm text-left mt-1 mb-2.5">
+                date de livraison le : <p>{projectFinishedAt}</p>
+              </p>
+            )}
           </div>
-        )}
-        <div className="flex-col">
-          <p className="text-sm text-left mt-1">Chef de projet :</p>
-          <img src="./img/avatar_jane.png" className="h-[60px] w-[60px]" />
+          <div className="flex flex-col items-center content-center ">
+            <p className="text-sm text-center">Chef de projet</p>
+            <img src="./img/avatar_jane.png" className="h-[60px] w-[60px]" />
+          </div>
         </div>
         <div className="flex-col">
-          <p className="text-sm text-left mt-2">Equipe :</p>
+          <p className="text-sm text-left mt-1 mb-1.5">Equipe :</p>
           <div className="w-full flex-col">
-            <div className=" bg-white flex flex-col p-4 rounded-xl mb-3">
+            <div className=" bg-yellow-800 flex flex-row p-2 rounded-xl mb-2 ">
               <div className="flex self-end justify-around items-center">
                 {members.map((member: Member) => {
                   return (
@@ -95,6 +103,13 @@ export const Cardproject: FC<ProjectProps> = ({
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex flex-row justify-start">
+          <div className="mr-1.5">Consulter les informations</div>
+          <FontAwesomeIcon
+            className="h-6 mb-2 fill-current  "
+            icon={faArrowRight}
+          />
         </div>
       </div>
     </div>
