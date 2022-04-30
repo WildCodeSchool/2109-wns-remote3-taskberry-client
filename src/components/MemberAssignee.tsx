@@ -1,6 +1,5 @@
-interface IMemberAssignee {
-  assigneePicture: string;
-}
+import { IMemberAssignee } from "../models/MemberConfig";
+
 export default function MemberAssignee({ assigneePicture }: IMemberAssignee) {
   return (
     <img

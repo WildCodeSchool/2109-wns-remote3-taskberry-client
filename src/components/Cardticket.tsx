@@ -1,16 +1,10 @@
 import React, { FC, useEffect, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GET_PROJECT_MEMBERS } from "../GraphQL/API";
 import MemberAssignee from "./MemberAssignee";
+import { Member } from "../models/MemberConfig";
+import { TicketProps } from "../models/TicketConfig";
 
-interface TicketProps {
-  title: string;
-  assigneeId: number;
-}
-export interface Member {
-  id: number;
-  profilePicture: string;
-}
 export const Cardticket: FC<TicketProps> = ({ title, assigneeId }) => {
   const [members, setMembers] = useState([]);
   const { data: membersData } = useQuery(GET_PROJECT_MEMBERS, {
@@ -32,6 +26,10 @@ export const Cardticket: FC<TicketProps> = ({ title, assigneeId }) => {
               assigneeId === Number(member.id) && (
                 <MemberAssignee
                   key={member.id}
+                  memberId={parseInt(member.id)}
+                  firstName={member.firstName}
+                  lastName={member.lastName}
+                  email={member.email}
                   assigneePicture={member.profilePicture}
                 />
               )

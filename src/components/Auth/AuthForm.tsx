@@ -5,7 +5,7 @@ import AuthToggleButton from "../Button/AuthToggleButton";
 import validate from "../../helpers/loginFormValidationRules";
 import useForm from "../../hooks/use-form";
 
-const AuthForm = () => {
+const AuthForm: React.FC = () => {
   const login = (): void => {
     console.log("Callback function when form is submitted!");
     console.log("Form Values ", values);
@@ -114,6 +114,16 @@ const AuthForm = () => {
       />
     </div>
   );
+
+  let content;
+
+  if (error) {
+    content = <h2>No account found. Start adding some!</h2>;
+  }
+
+  if (isLoading) {
+    content = "Loading tasks...";
+  }
 
   return (
     <section className="my-12 m-auto w-11/12 max-w-max rounded-md bg-purple-medium shadow-md p-4 text-center">

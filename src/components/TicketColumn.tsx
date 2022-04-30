@@ -5,21 +5,10 @@ import { gql, useQuery } from "@apollo/client";
 import CardAddTicket from "./CardAddTicket";
 import CardNewTicket from "./CardNewTicket";
 import { GET_PROJECT_TICKETS, GET_PROJECT_MEMBERS } from "../GraphQL/API";
+import { TicketColumnProps, Ticket } from "../models/TicketConfig";
 
-interface TicketColumnProps {
-  label: string;
-  statusId: number;
-}
-export interface Ticket {
-  id: number;
-  name: string;
-  description: string;
-  assigneeId: number;
-  statusId: number;
-}
 const TicketColumn: FC<TicketColumnProps> = ({ label, statusId }) => {
   const [newTicket, setNewTicket] = useState<boolean>(false);
-
   const [tickets, setTickets] = useState([]);
 
   const { data, loading, error } = useQuery(GET_PROJECT_TICKETS, {

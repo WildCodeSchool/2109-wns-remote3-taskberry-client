@@ -7,9 +7,9 @@ import AuthPage from "./pages/AuthPage";
 import Navbar from "./components/Navbar";
 import TicketBoard from "./pages/TicketBoard";
 import AuthContext from "./store/auth-context";
-import Dashboard from "./pages/Dashboard";
+import Projects from "./pages/Projects";
 
-const App = () => {
+const App: React.FC = () => {
   const authCtx = useContext(AuthContext);
   return (
     <div data-test="component-app">
@@ -28,7 +28,7 @@ const App = () => {
           )}
           <Route path="/tickets" element={<TicketBoard />}></Route>
           <Route path="*" element={<Navigate to="/" />}></Route>
-          <Route path="/dashboards" element={<Dashboard />}></Route>
+          <Route path="/dashboards" element={<Projects />}></Route>
         </Routes>
       </Layout>
     </div>

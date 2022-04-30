@@ -1,12 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import {
-  CREATE_TICKET,
-  GET_USER_PROJECTS,
-  GET_PROJECT_MEMBERS,
-} from "../GraphQL/API";
+import { useMutation, useQuery } from "@apollo/client";
+import { CREATE_TICKET, GET_PROJECT_MEMBERS } from "../GraphQL/API";
 import { ProjectContext } from "../providers/ProjectProvider";
 
 function CardNewTicket(props: any): JSX.Element {

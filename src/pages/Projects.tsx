@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
 import CardAddProject from "../components/Projects/CardAddProject";
 import CardNewProject from "../components/Projects/CardNewProject";
 import Cardproject from "../components/Projects/Cardproject";
@@ -7,41 +5,26 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_PROJECTS } from "../GraphQL/API";
 import UserConnectedProfile from "../components/Profile/UserConnectedProfile";
+import { Project } from "../models/ProjectConfig";
 
-export interface Project {
-  id: number;
-  name: string;
-  description: string;
-  finishedAt: Date;
-  estimateEndAt: Date;
-  createdAt: Date;
-}
-
-function Dashboard(): JSX.Element {
+function Projects(): JSX.Element {
   const [newProject, setNewProject] = useState<boolean>(false);
   const [projects, setProjects] = useState([]);
-
-  const { data, loading, error } = useQuery(GET_PROJECTS);
-  console.log("getprojects", data);
+  const { data: projectsData, loading, error } = useQuery(GET_PROJECTS);
 
   useEffect(() => {
-    if (data && data.getProjects) {
-      setProjects(data.getProjects);
+    if (projectsData && projectsData.getProjects) {
+      setProjects(projectsData.getProjects);
     }
-  }, [data]);
-
-  console.log("projects", projects);
-  console.log("projectsIteration", projects.length);
+  }, [projectsData]);
 
   const inProgressProject = projects.filter(
     (obj: Project) => obj.finishedAt === null
   );
-  console.log("inProgressProject", inProgressProject);
 
   const finishedProject = projects.filter(
     (obj: Project) => obj.finishedAt !== null
   );
-  console.log("finishedProject", finishedProject);
 
   return (
     <div className="w-full pl-[30px]">
@@ -53,12 +36,6 @@ function Dashboard(): JSX.Element {
           </div>
           <div className="bg-gray-ligth w-[550px] max-h-[750px] rounded-2xl shadow-lg mt-5">
             <div className="max-h-[700px] mt-8 overflow-y-auto flex flex-col space-y-6 justify-start items-center ">
-              <div>
-                <Cardproject />
-              </div>
-              <div>
-                <Cardproject />
-              </div>
               {!newProject ? (
                 <div>
                   <a onClick={() => setNewProject(true)}>
@@ -84,6 +61,7 @@ function Dashboard(): JSX.Element {
                   return (
                     <Cardproject
                       key={item.id}
+                      idProject={parseInt(item.id)}
                       name={`#${item.id} ${item.name}`}
                       createdDate={item.createdAt}
                       finishedAt={item.finishedAt}
@@ -105,6 +83,7 @@ function Dashboard(): JSX.Element {
                   return (
                     <Cardproject
                       key={item.id}
+                      idProject={parseInt(item.id)}
                       name={`#${item.id} ${item.name}`}
                       createdDate={item.createdAt}
                       finishedAt={item.finishedAt}
@@ -120,4 +99,4 @@ function Dashboard(): JSX.Element {
   );
 }
 
-export default Dashboard;
+export default Projects;

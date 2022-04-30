@@ -1,14 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
-
+import { gql, useQuery } from "@apollo/client";
+import { GET_PROJECT_TICKETS, GET_PROJECT_MEMBERS } from "../../GraphQL/API";
 import { toDateLongFormat, toDateObject } from "../../helpers/dates";
+import { ProjectProps } from "../../models/ProjectConfig";
+import MemberAssignee from "../MemberAssignee";
+import { Member } from "../../models/MemberConfig";
 
-interface ProjectProps {
-  name: string;
-  createdDate: Date;
-  finishedAt: Date;
-  projectDetail: string;
-}
 export const Cardproject: FC<ProjectProps> = ({
+  idProject,
   name,
   createdDate,
   finishedAt,
@@ -18,12 +17,39 @@ export const Cardproject: FC<ProjectProps> = ({
   const projectCreatedAt = toDateLongFormat(formatCreatedDate);
   const formatFinishedDate = toDateObject(finishedAt);
   const projectFinishedAt = toDateLongFormat(formatFinishedDate);
+  const [tickets, setTickets] = useState([]);
+  const [members, setMembers] = useState([]);
 
-  // console.log("createdDate", createdDate);
-  // console.log("finishedAt", finishedAt);
+  const {
+    data: ticketsData,
+    loading,
+    error,
+  } = useQuery(GET_PROJECT_TICKETS, {
+    variables: { projectId: idProject },
+    // pollInterval: 500,
+  });
 
-  console.log("formatFinishedDate", formatFinishedDate);
-  console.log("projectFinishedAt", projectFinishedAt);
+  const { data: membersData } = useQuery(GET_PROJECT_MEMBERS, {
+    variables: { projectId: idProject },
+  });
+
+  useEffect(() => {
+    if (ticketsData && ticketsData.getProjectTickets) {
+      setTickets(ticketsData.getProjectTickets);
+    }
+  }, [ticketsData]);
+
+  useEffect(() => {
+    if (membersData && membersData.getProjectUsers) {
+      setMembers(membersData.getProjectUsers);
+    }
+  }, [membersData]);
+
+  if (loading) return <span>Loading...</span>;
+  if (error) return <div>{`Error! ${error.message}`}</div>;
+
+  console.log("tickets", tickets);
+  console.log("membersData", membersData);
 
   return (
     <div className="bg-white rounded-2xl h-[350px] w-[400px] flex">
@@ -51,10 +77,23 @@ export const Cardproject: FC<ProjectProps> = ({
         </div>
         <div className="flex-col">
           <p className="text-sm text-left mt-2">Equipe :</p>
-          <div className="flex flex-row">
-            <img src="./img/avatar_anne.png" className="h-1/5 w-1/5" />
-            <img src="./img/avatar_jane.png" className="h-1/5 w-1/5" />
-            <img src="./img/avatar_john.png" className="h-1/5 w-1/5" />
+          <div className="w-full flex-col">
+            <div className=" bg-white flex flex-col p-4 rounded-xl mb-3">
+              <div className="flex self-end justify-around items-center">
+                {members.map((member: Member) => {
+                  return (
+                    <MemberAssignee
+                      key={member.id}
+                      memberId={parseInt(member.id)}
+                      firstName={member.firstName}
+                      lastName={member.lastName}
+                      email={member.email}
+                      assigneePicture={member.profilePicture}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </div>
