@@ -9,8 +9,14 @@ export default class RequestConfig {
     idToken?: string | null;
   };
 }
-
 export interface LogRequest {
-  email?: string;
-  password?: string;
+  variables: {
+    userInput: {
+      email?: string;
+      password?: string;
+      profilePicture?: string;
+      firstName?: string;
+      lastName?: string;
+    };
+  };
 }

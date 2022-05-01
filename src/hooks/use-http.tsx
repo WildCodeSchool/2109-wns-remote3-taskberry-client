@@ -2,14 +2,15 @@ import { useState, useContext } from "react";
 import RequestConfig, { LogRequest } from "../models/RequestConfig";
 import AuthContext from "../store/auth-context";
 import { useNavigate } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
-import { LOGIN_USER } from "../GraphQL/API";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "../GraphQL/API";
 
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
+  const [createUser, { data: userCreated, loading }] = useMutation(CREATE_USER);
 
   const sendRequest = async (requestConfig: RequestConfig) => {
     setIsLoading(true);
@@ -43,10 +44,37 @@ const useHttp = () => {
     setIsLoading(false);
   };
 
+  const sendRegister = async (requestConfig: LogRequest) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      createUser({
+        variables: {
+          userInput: {
+            profilePicture: requestConfig.variables.userInput.profilePicture,
+            firstName: requestConfig.variables.userInput.firstName,
+            lastName: requestConfig.variables.userInput.lastName,
+            email: requestConfig.variables.userInput.email,
+            password: requestConfig.variables.userInput.password,
+          },
+        },
+      });
+      navigate("/");
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message || "Something went wrong!");
+        alert(err.message);
+      }
+    }
+    setIsLoading(false);
+  };
+
   return {
     isLoading: isLoading,
     error: error,
     sendRequest,
+    sendRegister,
   };
 };
 

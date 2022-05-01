@@ -26,7 +26,7 @@ export default function validate(values: ValidateValues) {
     )
   ) {
     errors.password =
-      "Password should contains atleast 8 charaters and containing uppercase,lowercase and numbers";
+      "Password should contains : 8 charaters, uppercase,lowercase and numbers";
   }
   return errors;
 }

@@ -1,7 +1,5 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import useHttp from "../../hooks/use-http";
-import { gql, useQuery } from "@apollo/client";
-import { LOGIN_USER } from "../../GraphQL/API";
 import AuthButton from "../Button/AuthButton";
 import AuthToggleButton from "../Button/AuthToggleButton";
 import validate from "../../helpers/loginFormValidationRules";
@@ -12,7 +10,12 @@ const AuthForm: React.FC = () => {
     console.log("Callback function when form is submitted!");
     console.log("Form Values ", values);
   };
-  const { isLoading, error, sendRequest: signLoginRequest } = useHttp();
+  const {
+    isLoading,
+    error,
+    sendRequest: signLoginRequest,
+    sendRegister: registerNewUser,
+  } = useHttp();
 
   const {
     values,
@@ -23,8 +26,19 @@ const AuthForm: React.FC = () => {
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
+  const firstNameInputRef = useRef<HTMLInputElement>(null);
+  const lastNameInputRef = useRef<HTMLInputElement>(null);
+  const profileImageInputRef = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const [loggedUser, setLOggedUser] = useState([]);
+  const [file, setFile] = useState({});
+  const [fileName, setFileName] = useState<string>("");
+
+  const saveFile = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (event && event.target.files) {
+      setFile(event.target.files[0]);
+      setFileName(event.target.files[0].name);
+    }
+  };
 
   const switchAuthModeHandler = (): void => {
     setIsLogin((prevState) => !prevState);
@@ -50,44 +64,40 @@ const AuthForm: React.FC = () => {
 
     const enteredEmail: string = emailInputRef.current!.value;
     const enteredPassword: string = passwordInputRef.current!.value;
+    const enteredFirstName: string = firstNameInputRef.current!.value;
+    const enteredLastName: string = lastNameInputRef.current!.value;
+    const enteredProfilePicture: string = profileImageInputRef.current!.value;
 
     if (Object.keys(errors).length === 0 && Object.keys(values).length !== 0) {
       login();
       let url;
       if (isLogin) {
         url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+        signLoginRequest({
+          url: url,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: {
+            email: enteredEmail,
+            password: enteredPassword,
+            returnSecureToken: true,
+          },
+        });
       } else {
-        url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+        registerNewUser({
+          variables: {
+            userInput: {
+              profilePicture: fileName,
+              firstName: enteredFirstName,
+              lastName: enteredLastName,
+              email: enteredEmail,
+              password: enteredPassword,
+            },
+          },
+        });
       }
-      signLoginRequest({
-        url: url,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true,
-        },
-      });
-      if (isLogin) {
-        url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
-      } else {
-        url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
-      }
-      signLoginRequest({
-        url: url,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true,
-        },
-      });
     } else {
       alert("There is an Error!");
       console.log("errors", errors);
@@ -104,7 +114,9 @@ const AuthForm: React.FC = () => {
           className="bg-gray-50 text-purple rounded-md border-white border-solid w-full text-left p-1"
           type="text"
           id="name"
-          // required
+          placeholder="nom"
+          ref={lastNameInputRef}
+          required
         />
       </div>
       <div className="mb-2">
@@ -115,23 +127,29 @@ const AuthForm: React.FC = () => {
           className="bg-gray-50 text-purple rounded-md border-white border-solid w-full text-left p-1"
           type="text"
           id="surname"
-          // required
+          placeholder="prénom"
+          ref={firstNameInputRef}
+          required
         />
       </div>
     </div>
   );
 
-  const confirmPasswordField = !isLogin && (
+  const uploadProfileFile = !isLogin && (
     <div className="mb-2">
       <label className="block text-white font-bold mb-2" htmlFor="password">
-        Confirmation mot de passe
+        Profil image
       </label>
       <input
         className="bg-gray-50 text-purple rounded-md border-white border-solid w-full text-left p-1"
-        type="password"
-        id="confirmPassword"
-        // required
+        type="file"
+        id="profileImage"
+        placeholder="image"
+        ref={profileImageInputRef}
+        onChange={saveFile}
+        required
       />
+      {/* <button onClick={uploadFile}>Upload</button> */}
     </div>
   );
 
@@ -190,7 +208,7 @@ const AuthForm: React.FC = () => {
             <p className="help is-danger">{errors.password}</p>
           )}
         </div>
-        {confirmPasswordField}
+        {uploadProfileFile}
         <div className="mt-6 flex flex-col items-center">
           <AuthButton isLogin={isLogin} isLoading={isLoading} />
           <AuthToggleButton
