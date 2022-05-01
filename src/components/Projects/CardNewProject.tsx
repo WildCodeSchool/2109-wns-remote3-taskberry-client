@@ -1,36 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useMutation, useQuery } from "@apollo/client";
+import { CREATE_TICKET, GET_PROJECT_MEMBERS } from "../../GraphQL/API";
+import { ProjectContext } from "../../providers/ProjectProvider";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker, { DayValue, Day } from "react-modern-calendar-datepicker";
+import NewProjectForm from "./NewProjectForm";
 
-function CardNewProject(): JSX.Element {
-  const [day, setDay] = useState<DayValue>(null);
+const CardNewProject = (props: any): JSX.Element => {
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [createdAt, setCreatedAt] = useState<DayValue>(null);
+  const [estimatedEnAt, setEstimatedEnAt] = useState<DayValue>(null);
+  const [statusId, setStatusId] = useState<number>();
+  const [assigneeId, setAssigneeId] = useState<number>();
+  const [createTicket, { data, loading, error }] = useMutation(CREATE_TICKET);
+  const [users, setUsers] = useState([]);
+  const { projectId } = useContext(ProjectContext);
+  const [members, setMembers] = useState([]);
+  const { data: membersData } = useQuery(GET_PROJECT_MEMBERS, {
+    variables: { projectId: 2 },
+  });
+
+  useEffect(() => {
+    if (data && data.getProjectTickets) {
+      setUsers(data.getProjectTickets);
+    }
+  }, [data]);
+  useEffect(() => {
+    if (membersData && membersData.getProjectUsers) {
+      setMembers(membersData.getProjectUsers);
+    }
+  }, [membersData]);
+
+  if (loading) return <span>Loading...</span>;
+  if (error) return <div>`Error! ${error.message}`</div>;
 
   return (
-    <div className="bg-white rounded-2xl h-[200px] w-[290px] flex">
-      <div className="p-5 w-full space-y-6">
-        <div className="flex-col border-b border-gray-500 py-2 w-[150px]">
-          <input
-            className="text-xl appearance-none bg-transparent border-none w-full text-black mr-3 py-1 px-2 leading-tight focus:outline-none focus:ring-transparent"
-            type="text"
-            placeholder="Titre du projet"
-          ></input>
-        </div>
-        <div className="flex-col">
-          <DatePicker
-            value={day}
-            onChange={setDay}
-            colorPrimary="#4C16B6"
-            inputPlaceholder="Dead line"
+    <div className="space-y-4 animated fadeIn faster  fixed  left-0 top-0 flex justify-center bg-gray-900/80 items-center inset-0 z-50 outline-none focus:outline-none ">
+      <div className="w-[800px] h-auto flex flex-col py-4 px-6 bg-gray-200 shadow-md hover:shodow-lg rounded-2xl ">
+        <button className="self-end ">
+          <FontAwesomeIcon
+            onClick={() => props.setShow(false)}
+            className="h-6 mb-2 fill-current text-purple-medium text-4xl "
+            icon={faTimes}
           />
-        </div>
-        <div className="flex-col text-center">
-          <button className="bg-purple-medium hover:bg-purple-medium text-white font-bold py-1 px-4 rounded">
-            Créer
-          </button>
-        </div>
+        </button>
+        <NewProjectForm />
       </div>
     </div>
   );
-}
+};
 
 export default CardNewProject;

@@ -44,7 +44,7 @@ function Projects(): JSX.Element {
                 </div>
               ) : (
                 <div>
-                  <CardNewProject />
+                  <CardNewProject setShow={setNewProject} />
                 </div>
               )}
             </div>

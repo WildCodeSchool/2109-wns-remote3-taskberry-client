@@ -1,10 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import {
-  GET_PROJECT_TICKETS,
-  GET_PROJECT_MEMBERS,
-  LOGIN_USER,
-} from "../../GraphQL/API";
+import { GET_PROJECT_TICKETS, GET_PROJECT_MEMBERS } from "../../GraphQL/API";
 import { toDateLongFormat, toDateObject } from "../../helpers/dates";
 import { ProjectProps } from "../../models/ProjectConfig";
 import MemberAssignee from "../MemberAssignee";
@@ -39,16 +35,6 @@ export const Cardproject: FC<ProjectProps> = ({
     variables: { projectId: idProject },
   });
 
-  const { data: userData } = useQuery(LOGIN_USER, {
-    variables: {
-      email: "johnnyd@gmail.com",
-      password: "Test123456",
-    },
-    // pollInterval: 500,
-  });
-
-  console.log("userData", userData);
-
   useEffect(() => {
     if (ticketsData && ticketsData.getProjectTickets) {
       setTickets(ticketsData.getProjectTickets);
@@ -63,9 +49,6 @@ export const Cardproject: FC<ProjectProps> = ({
 
   if (loading) return <span>Loading...</span>;
   if (error) return <div>{`Error! ${error.message}`}</div>;
-
-  // console.log("tickets", tickets.length);
-  // console.log("membersData", membersData);
 
   return (
     <div className="bg-white rounded-2xl h-[370px] w-[400px] flex">
