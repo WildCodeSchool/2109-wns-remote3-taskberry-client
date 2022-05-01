@@ -4,6 +4,8 @@ import AuthButton from "../Button/AuthButton";
 import AuthToggleButton from "../Button/AuthToggleButton";
 import validate from "../../helpers/loginFormValidationRules";
 import useForm from "../../hooks/use-form";
+import { useQuery } from "@apollo/client";
+import { LOGIN_USER } from "../../GraphQL/API";
 
 const AuthForm: React.FC = () => {
   const login = (): void => {
@@ -64,28 +66,36 @@ const AuthForm: React.FC = () => {
 
     const enteredEmail: string = emailInputRef.current!.value;
     const enteredPassword: string = passwordInputRef.current!.value;
-    const enteredFirstName: string = firstNameInputRef.current!.value;
-    const enteredLastName: string = lastNameInputRef.current!.value;
-    const enteredProfilePicture: string = profileImageInputRef.current!.value;
-
     if (Object.keys(errors).length === 0 && Object.keys(values).length !== 0) {
+      console.log("totot");
       login();
       let url;
       if (isLogin) {
-        url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
-        signLoginRequest({
-          url: url,
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: {
-            email: enteredEmail,
+        const { data: membersData } = useQuery(LOGIN_USER, {
+          variables: {
             password: enteredPassword,
-            returnSecureToken: true,
+            email: enteredEmail,
           },
         });
+        console.log(membersData);
+        // url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+        // signLoginRequest({
+        //   url: url,
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: {
+        //     email: enteredEmail,
+        //     password: enteredPassword,
+        //     returnSecureToken: true,
+        //   },
+        // });
       } else {
+        const enteredFirstName: string = firstNameInputRef.current!.value;
+        const enteredLastName: string = lastNameInputRef.current!.value;
+        const enteredProfilePicture: string =
+          profileImageInputRef.current!.value;
         registerNewUser({
           variables: {
             userInput: {

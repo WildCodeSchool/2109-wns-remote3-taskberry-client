@@ -2,8 +2,8 @@ import { useState, useContext } from "react";
 import RequestConfig, { LogRequest } from "../models/RequestConfig";
 import AuthContext from "../store/auth-context";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "../GraphQL/API";
+import { useMutation, useQuery } from "@apollo/client";
+import { CREATE_USER, LOGIN_USER } from "../GraphQL/API";
 
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -69,6 +69,29 @@ const useHttp = () => {
     }
     setIsLoading(false);
   };
+
+  // const sendLogin = async (requestConfig: LogRequest) => {
+  //   setIsLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     logUse(LOGIN_USER, {
+  //       variables: {
+  //         email: requestConfig.variables.userInput.email,
+  //         password: requestConfig.variables.userInput.password,
+  //       },
+  //       // pollInterval: 500,
+  //     });
+  //     navigate("/");
+  //   console.log(logdata)
+  //   } catch (err) {
+  //     if (err instanceof Error) {
+  //       setError(err.message || "Something went wrong!");
+  //       alert(err.message);
+  //     }
+  //   }
+  //   setIsLoading(false);
+  // };
 
   return {
     isLoading: isLoading,
