@@ -1,27 +1,26 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
+import validate from "../../helpers/loginFormValidationRules";
+import useForm from "../../hooks/use-form";
 import useHttp from "../../hooks/use-http";
 import AuthButton from "../Button/AuthButton";
 import AuthToggleButton from "../Button/AuthToggleButton";
-import validate from "../../helpers/loginFormValidationRules";
-import useForm from "../../hooks/use-form";
-import { useQuery } from "@apollo/client";
-import { LOGIN_USER } from "../../GraphQL/API";
 
 const AuthForm: React.FC = () => {
   const login = (): void => {
     console.log("Callback function when form is submitted!");
-    console.log("Form Values ", values);
   };
   const {
     isLoading,
     error,
-    sendRequest: signLoginRequest,
+    sendLogin: signLoginRequest,
     sendRegister: registerNewUser,
+    sendRequest: sendRequest,
   } = useHttp();
 
   const {
     values,
     errors,
+    data,
     handleChange,
     handleSubmit: handleSubmitValidate,
   } = useForm(login, validate);
@@ -67,30 +66,32 @@ const AuthForm: React.FC = () => {
     const enteredEmail: string = emailInputRef.current!.value;
     const enteredPassword: string = passwordInputRef.current!.value;
     if (Object.keys(errors).length === 0 && Object.keys(values).length !== 0) {
-      console.log("totot");
       login();
       let url;
       if (isLogin) {
-        const { data: membersData } = useQuery(LOGIN_USER, {
-          variables: {
-            password: enteredPassword,
-            email: enteredEmail,
-          },
-        });
-        console.log(membersData);
-        // url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
-        // signLoginRequest({
-        //   url: url,
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: {
-        //     email: enteredEmail,
-        //     password: enteredPassword,
-        //     returnSecureToken: true,
-        //   },
-        // });
+        if (data && data.length === 0) {
+          url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCU6TjWTOafIRK2LwxNhVJ91WZYUX1PyRc`;
+          sendRequest({
+            url: url,
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: {
+              email: enteredEmail,
+              password: enteredPassword,
+              returnSecureToken: true,
+            },
+          });
+        } else
+          signLoginRequest({
+            variables: {
+              email: values.email,
+              password: values.password,
+              token: data.loginUser,
+              expiresIn: "3600",
+            },
+          });
       } else {
         const enteredFirstName: string = firstNameInputRef.current!.value;
         const enteredLastName: string = lastNameInputRef.current!.value;
@@ -157,7 +158,7 @@ const AuthForm: React.FC = () => {
         placeholder="image"
         ref={profileImageInputRef}
         onChange={saveFile}
-        required
+        // required
       />
       {/* <button onClick={uploadFile}>Upload</button> */}
     </div>

@@ -1,13 +1,13 @@
-import { useState, useContext } from "react";
-import RequestConfig, { LogRequest } from "../models/RequestConfig";
-import AuthContext from "../store/auth-context";
+import { useMutation } from "@apollo/client";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
-import { CREATE_USER, LOGIN_USER } from "../GraphQL/API";
+import { CREATE_USER } from "../GraphQL/API";
+import RequestConfig, { Login, LogRequest } from "../models/RequestConfig";
+import AuthContext from "../store/auth-context";
 
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>("");
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const [createUser, { data: userCreated, loading }] = useMutation(CREATE_USER);
@@ -70,33 +70,40 @@ const useHttp = () => {
     setIsLoading(false);
   };
 
-  // const sendLogin = async (requestConfig: LogRequest) => {
-  //   setIsLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     logUse(LOGIN_USER, {
-  //       variables: {
-  //         email: requestConfig.variables.userInput.email,
-  //         password: requestConfig.variables.userInput.password,
-  //       },
-  //       // pollInterval: 500,
-  //     });
-  //     navigate("/");
-  //   console.log(logdata)
-  //   } catch (err) {
-  //     if (err instanceof Error) {
-  //       setError(err.message || "Something went wrong!");
-  //       alert(err.message);
-  //     }
-  //   }
-  //   setIsLoading(false);
-  // };
+  const sendLogin = async (requestConfig: Login) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const email = requestConfig.variables.email;
+      console.log("email1", email);
+      const password = requestConfig.variables.password;
+      console.log("password2", password);
+      const token = requestConfig.variables.token;
+      console.log("token3", token);
+      const expiresIn = requestConfig.variables.expiresIn;
+      console.log("expiresIn4", expiresIn);
+      if (!token) {
+        const errorMessage = "Authentification failed";
+        throw new Error(errorMessage);
+      }
+      const expirationTime = new Date(new Date().getTime() + +expiresIn * 1000);
+      console.log("expirationTime5", expirationTime);
+      authCtx.login(token, expirationTime.toISOString());
+      navigate("/");
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message || "Something went wrong!");
+        alert(err.message);
+      }
+    }
+    setIsLoading(false);
+  };
 
   return {
     isLoading: isLoading,
     error: error,
     sendRequest,
+    sendLogin,
     sendRegister,
   };
 };

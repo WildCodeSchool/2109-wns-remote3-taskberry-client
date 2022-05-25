@@ -20,3 +20,13 @@ export interface LogRequest {
     };
   };
 }
+  export interface Login {
+    variables: {
+      email?: string;
+      password?: string;
+      token: string;
+      expiresIn: string;
+    };
+  }
+  
+

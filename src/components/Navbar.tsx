@@ -23,7 +23,6 @@ function Navbar() {
   const logoutHandler = () => {
     authCtx.logout();
   };
-  console.log(isLoggedIn);
   return (
     <div className="absolute min-h-screen sm:flex md:w-auto w-100">
       {/* mobile menu bar  */}
