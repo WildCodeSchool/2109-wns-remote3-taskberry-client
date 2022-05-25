@@ -9,8 +9,8 @@ function Dashboard(): JSX.Element {
   const [newProject, setNewProject] = useState<boolean>(false);
   return (
     <div className="w-full pl-[30px]">
-      <div className="flex flex-row justify-end mr-10 mt-2">
-        <div className="flex flex-row items-center">
+      <div className="flex flex-row justify-end mr-10">
+        <div className="flex flex-row items-center mt-2">
           <FontAwesomeIcon
             className="fill-current text-purple-medium text-4xl mr-8"
             icon={faBell}
