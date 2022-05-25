@@ -7,6 +7,7 @@ import {
   faTasks,
   faFolder,
   faUsers,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 // grab everything we need
@@ -83,42 +84,51 @@ function Navbar() {
             )}
             {isLoggedIn && (
               <div>
-                <a
-                  href="#"
-                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                <Link
+                  className="no-underline text-white py-2.5 block text-center	rounded transition duration-200 hover:text-pink-300"
+                  to="/"
                 >
-                  <FontAwesomeIcon icon={faHome} size="2x" />
-                  <p>Accueil</p>
-                </a>
-                <a
-                  href=""
-                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                  <a href="#">
+                    <FontAwesomeIcon icon={faHome} size="2x" />
+                    <p>Accueil</p>
+                  </a>
+                </Link>
+                <Link
+                  className="no-underline text-white py-2.5 block text-center	rounded transition duration-200 hover:text-pink-300"
+                  to="/tickets"
                 >
-                  <FontAwesomeIcon icon={faTasks} size="2x" />
-                  <p>Tickets</p>
-                </a>
-                <a
-                  href=""
-                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                  <a href="">
+                    <FontAwesomeIcon icon={faTasks} size="2x" />
+                    <p>Tickets</p>
+                  </a>
+                </Link>
+                <Link
+                  className="no-underline text-white py-2.5 block text-center	rounded transition duration-200 hover:text-pink-300"
+                  to="/dashboards"
                 >
-                  <FontAwesomeIcon icon={faFolder} size="2x" />
-                  <p>Projets</p>
-                </a>
-                <a
-                  href=""
-                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
+                  <a href="">
+                    <FontAwesomeIcon icon={faFolder} size="2x" />
+                    <p>Projets</p>
+                  </a>
+                </Link>
+                <Link
+                  className="no-underline text-white py-2.5 block text-center	rounded transition duration-200 hover:text-pink-300"
+                  to=""
                 >
-                  <FontAwesomeIcon icon={faUsers} size="2x" />
-                  <p>Équipe</p>
-                </a>
-                <a
-                  href=""
-                  className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
-                  onClick={logoutHandler}
+                  <a href="">
+                    <FontAwesomeIcon icon={faUsers} size="2x" />
+                    <p>Équipe</p>
+                  </a>
+                </Link>
+                <Link
+                  className="no-underline text-white py-2.5 block text-center	rounded transition duration-200 hover:text-pink-300"
+                  to="/"
                 >
-                  <FontAwesomeIcon icon={faUsers} size="2x" />
-                  <p>LogOut</p>
-                </a>
+                  <a href="" onClick={logoutHandler}>
+                    <FontAwesomeIcon icon={faSignOutAlt} size="2x" />
+                    <p>LogOut</p>
+                  </a>
+                </Link>
               </div>
             )}
           </nav>

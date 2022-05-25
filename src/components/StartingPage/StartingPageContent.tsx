@@ -2,10 +2,10 @@ const StartingPageContent: React.FC = () => {
   return (
     <div>
       <section
-        className="my-28 m-auto text-center"
+        className="pt-28 m-auto text-center"
         data-test="starting-page-content"
       >
-        <h1 className="text-6xl text-purple-900">Welcome on TaskBerry!</h1>
+        <h1 className=" text-6xl text-purple-900">Welcome on TaskBerry!</h1>
       </section>
       <div className="w-full flex justify-center">
         <img

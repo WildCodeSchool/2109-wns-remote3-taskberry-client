@@ -116,59 +116,64 @@ const AuthForm = () => {
   );
 
   return (
-    <section className="my-12 m-auto w-11/12 max-w-max rounded-md bg-purple-medium shadow-md p-4 text-center">
-      <h1 className="text-center text-white p-4 ">
-        {isLogin ? "Se connecter" : "S'inscrire"}
-      </h1>
-      <form onSubmit={submitHandler}>
-        {createAccountFields}
-        <div className="mb-2">
-          <label className="block text-white font-bold mb-2" htmlFor="email">
-            E-mail
-          </label>
-          <input
-            className="bg-gray-50 text-purple rounded-md border-white border-solid w-full text-left p-1"
-            autoComplete="off"
-            type="email"
-            name="email"
-            value={values.email || ""}
-            id="email"
-            placeholder="email"
-            onChange={handleChange}
-            required
-            ref={emailInputRef}
-          />
-          {errors.email && <p className="help is-danger">{errors.email}</p>}
-        </div>
-        <div className="mb-2">
-          <label className="block text-white font-bold mb-2" htmlFor="password">
-            Mot de passe
-          </label>
-          <input
-            className="bg-gray-50 text-purple rounded-md border-white border-solid w-full text-left p-1"
-            autoComplete="off"
-            type="password"
-            name="password"
-            value={values.password || ""}
-            id="password"
-            placeholder="password"
-            onChange={handleChange}
-            required
-            ref={passwordInputRef}
-          />
-          {errors.password && (
-            <p className="help is-danger">{errors.password}</p>
-          )}
-        </div>
-        {confirmPasswordField}
-        <div className="mt-6 flex flex-col items-center">
-          <AuthButton isLogin={isLogin} isLoading={isLoading} />
-          <AuthToggleButton
-            switchAuthModeHandler={switchAuthModeHandler}
-            isLogin={isLogin}
-          />
-        </div>
-      </form>
+    <section className="pt-12">
+      <div className="m-auto w-11/12 max-w-max rounded-md bg-purple-medium shadow-md p-4 text-center">
+        <h1 className="text-center text-white p-4 ">
+          {isLogin ? "Se connecter" : "S'inscrire"}
+        </h1>
+        <form onSubmit={submitHandler}>
+          {createAccountFields}
+          <div className="mb-2">
+            <label className="block text-white font-bold mb-2" htmlFor="email">
+              E-mail
+            </label>
+            <input
+              className="bg-gray-50 text-purple rounded-md border-white border-solid w-full text-left p-1"
+              autoComplete="off"
+              type="email"
+              name="email"
+              value={values.email || ""}
+              id="email"
+              placeholder="email"
+              onChange={handleChange}
+              required
+              ref={emailInputRef}
+            />
+            {errors.email && <p className="help is-danger">{errors.email}</p>}
+          </div>
+          <div className="mb-2">
+            <label
+              className="block text-white font-bold mb-2"
+              htmlFor="password"
+            >
+              Mot de passe
+            </label>
+            <input
+              className="bg-gray-50 text-purple rounded-md border-white border-solid w-full text-left p-1"
+              autoComplete="off"
+              type="password"
+              name="password"
+              value={values.password || ""}
+              id="password"
+              placeholder="password"
+              onChange={handleChange}
+              required
+              ref={passwordInputRef}
+            />
+            {errors.password && (
+              <p className="help is-danger">{errors.password}</p>
+            )}
+          </div>
+          {confirmPasswordField}
+          <div className="mt-6 flex flex-col items-center">
+            <AuthButton isLogin={isLogin} isLoading={isLoading} />
+            <AuthToggleButton
+              switchAuthModeHandler={switchAuthModeHandler}
+              isLogin={isLogin}
+            />
+          </div>
+        </form>
+      </div>
     </section>
   );
 };
