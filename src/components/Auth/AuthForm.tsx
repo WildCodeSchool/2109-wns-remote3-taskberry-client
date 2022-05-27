@@ -89,7 +89,6 @@ const AuthForm: React.FC = () => {
               email: values.email,
               password: values.password,
               token: data.loginUser,
-              expiresIn: "3600",
             },
           });
       } else {

@@ -2,11 +2,20 @@ import React, { useState, useEffect, useCallback } from "react";
 
 let logoutTimer: ReturnType<typeof setTimeout>;
 
+interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+
 type AuthContextObj = {
   token: string | null | undefined;
   isLoggedIn: boolean;
   logout: () => void;
   login: (token: string, expirationTime: string) => void;
+  updatedUserLogged: (userData: User) => void;
+  userData: User;
 };
 
 const AuthContext = React.createContext<AuthContextObj>({
@@ -14,6 +23,8 @@ const AuthContext = React.createContext<AuthContextObj>({
   isLoggedIn: false,
   login: (token: string, expirationTime: string) => {},
   logout: () => {},
+  updatedUserLogged: (userData: User) => {},
+  userData: { id: "", email: "", firstName: "", lastName: "" },
 });
 
 const calculateRemainingTime = (expirationTime: string) => {
@@ -43,13 +54,47 @@ const retrieveStoredToken = () => {
     duration: remainingTime,
   };
 };
+
+const retrievedStoredUserData = () => {
+  const storedUserId = localStorage.getItem("userId");
+  const storedUserEmail = localStorage.getItem("userEmail");
+  const storedUserFirstName = localStorage.getItem("userFirstName");
+  const storedUserLastName = localStorage.getItem("userLastName");
+  return {
+    userData: {
+      id: storedUserId,
+      email: storedUserEmail,
+      firstName: storedUserFirstName,
+      lastName: storedUserLastName,
+    },
+  };
+};
 export const AuthContextProvider: React.FC = (props) => {
   const tokenData = retrieveStoredToken();
   let initialToken;
   if (tokenData) {
     initialToken = tokenData.token;
   }
+  const { userData } = retrievedStoredUserData();
+  console.log("testDatainAuth", userData);
+  let initialUserEmail;
+  let initialUserId;
+  let initialUserFirstName;
+  let initialUserLastName;
+  if (userData) {
+    initialUserEmail = userData.email;
+    initialUserId = userData.id;
+    initialUserFirstName = userData.firstName;
+    initialUserLastName = userData.lastName;
+  }
   const [token, setToken] = useState<string | null | undefined>(initialToken);
+  const [userLogged, setUserLogged] = useState<any>({
+    id: initialUserId,
+    email: initialUserEmail,
+    firstName: initialUserFirstName,
+    lastName: initialUserLastName,
+  });
+  console.log("userLoggedInauth", userLogged);
   const userIsLoggedIn = !!token;
 
   // dependancy array is empty because functions inside logoutHandler are not specific to React app or to this component function
@@ -60,6 +105,10 @@ export const AuthContextProvider: React.FC = (props) => {
     setToken(null);
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userFirstName");
+    localStorage.removeItem("userLastName");
     if (logoutTimer) {
       clearTimeout(logoutTimer);
     }
@@ -74,6 +123,20 @@ export const AuthContextProvider: React.FC = (props) => {
     logoutTimer = setTimeout(logoutHandler, remainingTime);
   };
 
+  const userLoggedHandler = (userData: User) => {
+    setUserLogged({
+      ...userLogged,
+      email: userData.email,
+      id: userData.id,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+    });
+    localStorage.setItem("userId", userData.id);
+    localStorage.setItem("userEmail", userData.email);
+    localStorage.setItem("userFirstName", userData.firstName);
+    localStorage.setItem("userLastName", userData.lastName);
+  };
+
   useEffect(() => {
     if (tokenData) {
       console.log("tokenData.duration", tokenData.duration);
@@ -86,6 +149,8 @@ export const AuthContextProvider: React.FC = (props) => {
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    userData: userLogged,
+    updatedUserLogged: userLoggedHandler,
   };
 
   return (

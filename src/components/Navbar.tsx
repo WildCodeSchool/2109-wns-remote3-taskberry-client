@@ -8,6 +8,7 @@ import {
   faFolder,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 // grab everything we need
 const btn = document.querySelector(".mobile-menu-button");
@@ -23,6 +24,7 @@ function Navbar() {
   const logoutHandler = () => {
     authCtx.logout();
   };
+  const navigate = useNavigate();
   return (
     <div className="absolute min-h-screen sm:flex md:w-auto w-100">
       {/* mobile menu bar  */}
@@ -87,21 +89,39 @@ function Navbar() {
                   href="#"
                   className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
                 >
-                  <FontAwesomeIcon icon={faHome} size="2x" />
+                  <FontAwesomeIcon
+                    icon={faHome}
+                    size="2x"
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                  />
                   <p>Accueil</p>
                 </a>
                 <a
                   href=""
                   className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
                 >
-                  <FontAwesomeIcon icon={faTasks} size="2x" />
+                  <FontAwesomeIcon
+                    icon={faTasks}
+                    size="2x"
+                    onClick={() => {
+                      navigate("/tickets");
+                    }}
+                  />
                   <p>Tickets</p>
                 </a>
                 <a
                   href=""
                   className="block py-2.5 px-4 rounded transition duration-200 hover:text-white"
                 >
-                  <FontAwesomeIcon icon={faFolder} size="2x" />
+                  <FontAwesomeIcon
+                    icon={faFolder}
+                    size="2x"
+                    onClick={() => {
+                      navigate("/projects");
+                    }}
+                  />
                   <p>Projets</p>
                 </a>
                 <a

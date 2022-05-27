@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CREATE_USER } from "../GraphQL/API";
 import RequestConfig, { Login, LogRequest } from "../models/RequestConfig";
 import AuthContext from "../store/auth-context";
+import jwt_decode from "jwt-decode";
 
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -75,20 +76,20 @@ const useHttp = () => {
     setError(null);
     try {
       const email = requestConfig.variables.email;
-      console.log("email1", email);
       const password = requestConfig.variables.password;
-      console.log("password2", password);
       const token = requestConfig.variables.token;
-      console.log("token3", token);
-      const expiresIn = requestConfig.variables.expiresIn;
-      console.log("expiresIn4", expiresIn);
       if (!token) {
         const errorMessage = "Authentification failed";
         throw new Error(errorMessage);
       }
+      const logUserData: any = jwt_decode(token);
+      console.log("logUserData", logUserData);
+      const expiresIn = logUserData.exp - logUserData.iat;
       const expirationTime = new Date(new Date().getTime() + +expiresIn * 1000);
-      console.log("expirationTime5", expirationTime);
+      // console.log("expirationTime", expirationTime);
+      // console.log("logUserData", logUserData);
       authCtx.login(token, expirationTime.toISOString());
+      authCtx.updatedUserLogged(logUserData);
       navigate("/");
     } catch (err) {
       if (err instanceof Error) {

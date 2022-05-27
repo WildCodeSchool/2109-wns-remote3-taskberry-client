@@ -26,9 +26,19 @@ const App: React.FC = () => {
           {!authCtx.isLoggedIn && (
             <Route path="/auth" element={<AuthPage />}></Route>
           )}
-          <Route path="/tickets" element={<TicketBoard />}></Route>
+          <Route
+            path="/tickets"
+            element={
+              authCtx.isLoggedIn ? <TicketBoard /> : <Navigate to="/auth" />
+            }
+          ></Route>
           <Route path="*" element={<Navigate to="/" />}></Route>
-          <Route path="/projects" element={<Projects />}></Route>
+          <Route
+            path="/projects"
+            element={
+              authCtx.isLoggedIn ? <Projects /> : <Navigate to="/auth" />
+            }
+          ></Route>
         </Routes>
       </Layout>
     </div>

@@ -6,14 +6,18 @@ import { CREATE_TICKET, GET_PROJECT_MEMBERS } from "../../GraphQL/API";
 import { ProjectContext } from "../../providers/ProjectProvider";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker, { DayValue, Day } from "react-modern-calendar-datepicker";
+import AuthContext from "../../store/auth-context";
 
 const NewProjectForm = (props: any): JSX.Element => {
+  const authCtx = useContext(AuthContext);
+  const userData = authCtx.userData;
+  const fullName = userData.firstName.concat(" ", userData.lastName);
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [createdAt, setCreatedAt] = useState<DayValue>(null);
   const [estimatedEnAt, setEstimatedEnAt] = useState<DayValue>(null);
   const [statusId, setStatusId] = useState<number>();
-  const [assigneeId, setAssigneeId] = useState<number>();
+  const [assigneeId, setAssigneeId] = useState<string>(fullName);
   const [createTicket, { data, loading, error }] = useMutation(CREATE_TICKET);
   const [users, setUsers] = useState([]);
   const { projectId } = useContext(ProjectContext);
@@ -22,6 +26,8 @@ const NewProjectForm = (props: any): JSX.Element => {
     variables: { projectId: 2 },
   });
 
+  console.log("userDataincreate", userData);
+  console.log("assigneId", assigneeId);
   const submitHandler = (event: any) => {
     event.preventDefault();
   };
@@ -71,19 +77,20 @@ const NewProjectForm = (props: any): JSX.Element => {
           id="members-assigned"
           className="bg-white  ml-2"
           required
-          onChange={(e) => {
-            const valueMembers = parseInt(e.currentTarget.value);
-            setAssigneeId(valueMembers);
-          }}
+          value={assigneeId}
+          // onChange={(e) => {
+          //   const valueMembers = parseInt(e.currentTarget.value);
+          //   setAssigneeId(valueMembers);
+          // }}
         >
-          <option>Sélectionner </option>
-          {members.map((item: any) => {
+          <option>{assigneeId} </option>
+          {/* {members.map((item: any) => {
             return (
               <option key={item.id} value={item.id}>
                 {`${item.firstName} ${item.lastName}`}
               </option>
             );
-          })}
+          })} */}
         </select>
       </div>
       <div className="flex mb-2">
