@@ -7,6 +7,7 @@ import { ProjectContext } from "../../providers/ProjectProvider";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker, { DayValue, Day } from "react-modern-calendar-datepicker";
 import NewProjectForm from "./NewProjectForm";
+import AuthContext from "../../store/auth-context";
 
 const CardNewProject = (props: any): JSX.Element => {
   const [name, setName] = useState<string>("");

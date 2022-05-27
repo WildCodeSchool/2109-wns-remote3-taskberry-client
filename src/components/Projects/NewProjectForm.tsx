@@ -105,11 +105,11 @@ const NewProjectForm = (props: any): JSX.Element => {
             setStatusId(valueStatus);
           }}
         >
-          <option>Sélectionner </option>
-          <option value="1">À faire</option>
+          <option>Chef de projet</option>
+          {/* <option value="1">À faire</option>
           <option value="2">En cours</option>
           <option value="3">Review</option>
-          <option value="4">Terminé</option>
+          <option value="4">Terminé</option> */}
         </select>
       </div>
       <div className="flex-col text-center">
